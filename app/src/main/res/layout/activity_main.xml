@@ -10,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
 
             android:id="@+id/main_page_toolbar"
@@ -39,13 +40,13 @@
             android:layout_height="48dp"
             android:layout_above="@+id/main_container"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/add_post_high"
-            android:scaleType="centerCrop"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="12dp"
             android:background="@color/colorPrimaryDark"
             android:baselineAlignBottom="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add_post_high" />
 
     </RelativeLayout>
 
@@ -58,6 +59,10 @@
         app:menu="@menu/navigation_menu">
 
     </android.support.design.widget.NavigationView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </android.support.v4.widget.DrawerLayout>
