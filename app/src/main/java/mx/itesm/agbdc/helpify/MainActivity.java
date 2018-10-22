@@ -126,6 +126,10 @@ public class MainActivity extends AppCompatActivity
                         String image = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(MainActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
                     }
+                    if(dataSnapshot.hasChild("InstitutionID")){
+                        String InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
+                        GiveInstitutionRights(InstitutionID);
+                    }
                     else
                     {
                         Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
@@ -162,7 +166,13 @@ public class MainActivity extends AppCompatActivity
         DisplayAllUsersPosts();
     }
 
-
+    private void GiveInstitutionRights(String InstitutionID) {
+        if(InstitutionID.equals("null")){
+            AddNewPostButton.setVisibility(View.INVISIBLE);
+        }else{
+            AddNewPostButton.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void DisplayAllUsersPosts()
     {

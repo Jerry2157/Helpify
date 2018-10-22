@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,10 +35,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetupActivity extends AppCompatActivity
 {
-    private EditText UserName, FullName, CountryName;
-    private Button SaveInformationbuttion;
+    private EditText UserName, FullName, CountryName, InstitutionID;
+    private Button SaveInformationbuttion,SendToMapaButton;
     private CircleImageView ProfileImage;
     private ProgressDialog loadingBar;
+
+    private Switch SwitchButton;
+    private String IsInstitution;
+    private boolean SwitchInstitutionOn;
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
@@ -44,6 +51,9 @@ public class SetupActivity extends AppCompatActivity
 
     String currentUserID;
     final static int Gallery_Pick = 1;
+
+    private String LatitudToFirebase;
+    private String LongitudToFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,12 +68,38 @@ public class SetupActivity extends AppCompatActivity
         UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
 
+        SendToMapaButton = (Button)findViewById(R.id.setup_mapa);
+        SendToMapaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
         UserName = (EditText) findViewById(R.id.setup_username);
         FullName = (EditText) findViewById(R.id.setup_full_name);
         CountryName = (EditText) findViewById(R.id.setup_country_name);
         SaveInformationbuttion = (Button) findViewById(R.id.setup_information_button);
         ProfileImage = (CircleImageView) findViewById(R.id.setup_profile_image);
         loadingBar = new ProgressDialog(this);
+
+        InstitutionID = (EditText)findViewById(R.id.setup_institutionID);
+        SwitchButton = (Switch)findViewById(R.id.switch_Institution);
+        SwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b == true){
+                    //IsInstitution = "true";
+                    SwitchInstitutionOn = true;
+                    InstitutionID.setVisibility(View.VISIBLE);
+                }else{
+                    //IsInstitution = "false";
+                    SwitchInstitutionOn = false;
+                    InstitutionID.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
 
         SaveInformationbuttion.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +230,7 @@ public class SetupActivity extends AppCompatActivity
         String username = UserName.getText().toString();
         String fullname = FullName.getText().toString();
         String country = CountryName.getText().toString();
+        String institutionId = InstitutionID.getText().toString();
 
         if(TextUtils.isEmpty(username))
         {
@@ -207,39 +244,55 @@ public class SetupActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Please write your country...", Toast.LENGTH_SHORT).show();
         }
+        if(SwitchInstitutionOn == true && TextUtils.isEmpty(institutionId)){
+
+            Toast.makeText(this, "If you are an Institution please write your ID...", Toast.LENGTH_SHORT).show();
+        }
         else
         {
-            loadingBar.setTitle("Saving Information");
-            loadingBar.setMessage("Please wait, while we are creating your new Account...");
-            loadingBar.show();
-            loadingBar.setCanceledOnTouchOutside(true);
+            if(institutionId.equals("null")){
+                Toast.makeText(this, "InstitutionID cannot be null...", Toast.LENGTH_SHORT).show();
+            }else{
+                loadingBar.setTitle("Saving Information");
+                loadingBar.setMessage("Please wait, while we are creating your new Account...");
+                loadingBar.show();
+                loadingBar.setCanceledOnTouchOutside(true);
 
-            HashMap userMap = new HashMap();
-            userMap.put("username", username);
-            userMap.put("fullname", fullname);
-            userMap.put("country", country);
-            userMap.put("status", "Hey there, i am using Helpify, developed by an amazing team at ITESM CEM.");
-            userMap.put("gender", "none");
-            userMap.put("dob", "none");
-            userMap.put("relationshipstatus", "none");
-            UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task)
-                {
-                    if(task.isSuccessful())
-                    {
-                        SendUserToMainActivity();
-                        Toast.makeText(SetupActivity.this, "your Account is created Successfully.", Toast.LENGTH_LONG).show();
-                        loadingBar.dismiss();
-                    }
-                    else
-                    {
-                        String message =  task.getException().getMessage();
-                        Toast.makeText(SetupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
-                        loadingBar.dismiss();
-                    }
+                HashMap userMap = new HashMap();
+                userMap.put("username", username);
+                userMap.put("fullname", fullname);
+                userMap.put("country", country);
+                userMap.put("status", "Hey there, i am using Helpify, developed by an amazing team at ITESM CEM.");
+                if(SwitchInstitutionOn == true){
+                    userMap.put("InstitutionID", institutionId);
+                    userMap.put("instLatitud",LatitudToFirebase);
+                    userMap.put("instLongitud",LongitudToFirebase);
+                }else{
+                    userMap.put("InstitutionID", "null");
+                    userMap.put("instLatitud","null");
+                    userMap.put("instLongitud","null");
                 }
-            });
+                userMap.put("dob", "none");
+                userMap.put("relationshipstatus", "none");
+                UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            SendUserToMainActivity();
+                            Toast.makeText(SetupActivity.this, "your Account is created Successfully.", Toast.LENGTH_LONG).show();
+                            loadingBar.dismiss();
+                        }
+                        else
+                        {
+                            String message =  task.getException().getMessage();
+                            Toast.makeText(SetupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
+                            loadingBar.dismiss();
+                        }
+                    }
+                });
+            }
         }
     }
 

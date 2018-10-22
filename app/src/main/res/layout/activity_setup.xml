@@ -26,13 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="230dp"
         android:background="@drawable/input"
         android:drawableLeft="@drawable/username"
         android:ems="10"
         android:hint="username"
         android:inputType="textMultiLine"
-        android:padding="14dp"
+        android:padding="10dp"
 
         />
 
@@ -40,40 +40,78 @@
         android:id="@+id/setup_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="217dp"
+        android:layout_marginTop="280dp"
         android:background="@drawable/input"
         android:drawableLeft="@drawable/name"
         android:ems="10"
         android:hint="Full Name"
         android:inputType="textMultiLine"
-        android:padding="14dp" />
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/setup_country_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="148dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="330dp"
         android:background="@drawable/input"
         android:drawableLeft="@drawable/country"
         android:ems="10"
         android:hint="Country"
         android:inputType="textMultiLine"
-        android:padding="14dp" />
+        android:padding="10dp" />
 
     <Button
-        android:id="@+id/setup_information_button"
+        android:id="@+id/setup_mapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setup_institutionID"
+        android:layout_centerHorizontal="true"
+
+        android:background="@drawable/input"
+        android:padding="12dp"
+        android:text="Mapa"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/setup_information_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="14dp"
         android:background="@drawable/button"
 
-        android:padding="14dp"
-        android:text="Save" />
+        android:padding="12dp"
+        android:text="Save"
+        android:visibility="visible" />
+
+    <Switch
+        android:id="@+id/switch_Institution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="380dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/setup_institutionID"
+        android:background="@drawable/input"
+        android:text=" Institution" />
+
+    <EditText
+        android:id="@+id/setup_institutionID"
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="410dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/input"
+        android:drawableLeft="@drawable/username"
+        android:ems="10"
+        android:hint="institutionID"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:visibility="visible" />
 
 </RelativeLayout>
