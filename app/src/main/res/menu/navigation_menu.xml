@@ -15,18 +15,14 @@
         android:icon="@drawable/home"></item>
     <item
         android:id="@+id/nav_friends"
-        android:title="Friends"
-        android:icon="@drawable/friends"></item>
+        android:icon="@drawable/friends"
+        android:title="Donar"></item>
     <item
         android:id="@+id/nav_find_friends"
-        android:title="Find_Friends"
-        android:icon="@drawable/find_people"></item>
+        android:icon="@drawable/find_people"
+        android:title="Ubicaciones_de_Centros"></item>
     <item
         android:id="@+id/nav_messages"
-        android:title="Messaging"
-        android:icon="@drawable/messages"></item>
-    <item
-        android:id="@+id/nav_settings"
         android:title="Messaging"
         android:icon="@drawable/messages"></item>
     <item

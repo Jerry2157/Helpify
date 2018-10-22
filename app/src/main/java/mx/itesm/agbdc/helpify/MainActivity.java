@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     String currentUserID;
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
             }
             return false;
         }
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -270,19 +270,23 @@ public class MainActivity extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             HashMap a = (HashMap) snapshot.getValue();
+                            for(Object k: a.keySet())
+                            {
+                                Log.i("kMap", k.toString());
+                            }
                             String latdb;
                             String londb;
-                            Log.i("institutoID", a.get("InstitutionID").toString());
+                            String fName;
                             if(!a.get("InstitutionID").toString().equals("none"))
                             {
                                 latdb = (a.get("instLatitud").toString());
                                 londb = (a.get("instLongitud").toString());
-                                Log.i("coordenadas", Integer.toString(coordenadas.size()));
-                                Log.i("COO", String.valueOf(latdb) + ", " + String.valueOf(londb));
+                                fName = (a.get("fullname").toString());
                                 if(!latdb.equals("null") && !londb.equals("null"))
                                 {
                                     coordenadas.add(latdb);
                                     coordenadas.add(londb);
+                                    coordenadas.add(fName);
                                 }
 
                             }
@@ -425,12 +429,8 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_messages:
-                SendUserToMapaUbicacion();
                 break;
 
-            case R.id.nav_settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
-                break;
 
             case R.id.nav_Logout:
                 mAuth.signOut();

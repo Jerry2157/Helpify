@@ -40,6 +40,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     private static final int  PERMISO_GPS   = 200;
     double lat;
     double lon;
+    ArrayList<String> names;
     ArrayList<LatLng> latLngs;
 
     @Override
@@ -50,45 +51,21 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
                 findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         latLngs = new ArrayList<>();
+        names = new ArrayList<>();
         Intent intent = getIntent();
         String[] myStrings = intent.getStringArrayExtra("Coordenadas");
 
-        for(int i = 0; i < (myStrings.length/2); i++)
+        for(int i = 0; i < (myStrings.length/3); i++)
         {
-            double a = Double.valueOf(myStrings[(2 * i)]);
-            double b = Double.valueOf(myStrings[(2 * i) + 1]);
+            double a = Double.valueOf(myStrings[(3 * i)]);
+            double b = Double.valueOf(myStrings[(3 * i) + 1]);
+            String n = myStrings[(3 * i) + 2];
             latLngs.add(new LatLng(a, b));
+            names.add(n);
         }
         configurarGPS();
     }
 
-    private void capturarDatos()
-    {
-        FirebaseDatabase.getInstance().getReference().child("Users")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            HashMap a = (HashMap) snapshot.getValue();
-                            Double latdb;
-                            Double londb;
-                            Log.i("institutoID", a.get("InstitutionID").toString());
-                            if(!a.get("InstitutionID").toString().equals("none"))
-                            {
-
-                                latdb = Double.parseDouble(a.get("instLatitud").toString());
-                                londb = Double.parseDouble(a.get("instLongitud").toString());
-                                Log.i("size", Integer.toString(latLngs.size()));
-                                Log.i("LatLng", String.valueOf(latdb) + ", " + String.valueOf(londb));
-                                latLngs.add(new LatLng(latdb, londb));
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-    }
 
     private void configurarGPS() {
         // Crea el administrador del gps
@@ -126,23 +103,14 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         Log.i("Markers", "Marcadores");
 
         Log.i("SIZE", Integer.toString(latLngs.size()));
+        int j = 0;
         for (LatLng lt: latLngs)
         {
             Log.i("LATLON: ", lt.toString());
-            mMap.addMarker(new MarkerOptions().position(lt));
+            mMap.addMarker(new MarkerOptions().position(lt).title(names.get(j)));
+            j++;
         }
-
-        /*LatLng lugar = new LatLng(19.768725, -99.197813);
-        myMarker1 = mMap.addMarker(new MarkerOptions().position(lugar).title("Lugar1").snippet("L1"));
-        myMarker2 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.767355,
-                -99.197900)).title("Lugar2").snippet("L2"));
-        myMarker3 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.766046,
-                -99.196905)).title("Lugar3").snippet("L3"));
-        myMarker4 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.765968,
-                -99.201575)).title("Lugar4").snippet("L4"));
-        myMarker5 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.770159,
-                -99.199597)).title("Lugar5").snippet("L5"));
-*/    }
+    }
 
     @Override
     protected void onStart() {
