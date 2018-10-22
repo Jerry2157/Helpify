@@ -265,6 +265,12 @@ public class MainActivity extends AppCompatActivity
         startActivity(addNewPostIntent);
     }
 
+    private void SendUserToMapaUbicacion()
+    {
+        Intent addNewPostIntent = new Intent(MainActivity.this, MapUbication.class);
+        startActivity(addNewPostIntent);
+    }
+
     @Override
     protected void onStart()
     {
@@ -365,7 +371,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_messages:
-                Toast.makeText(this, "Messages", Toast.LENGTH_SHORT).show();
+                SendUserToMapaUbicacion();
                 break;
 
             case R.id.nav_settings:

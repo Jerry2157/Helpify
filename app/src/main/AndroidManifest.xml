@@ -35,7 +35,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".PostActivity" />
         <activity android:name=".ClickPostActivity" />
-        <activity android:name=".Mapa"></activity>
+        <activity android:name=".Mapa" />
+        <activity android:name=".MapUbication"></activity>
     </application>
 
 </manifest>
