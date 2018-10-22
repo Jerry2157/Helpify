@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private TextView NavProfileUserName;
     private ImageButton AddNewPostButton;
 
+
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef, PostsRef;
 
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
@@ -260,7 +259,11 @@ public class MainActivity extends AppCompatActivity
         startActivity(addNewPostIntent);
     }
 
-
+    private void SendUserToMapa()
+    {
+        Intent addNewPostIntent = new Intent(MainActivity.this, Mapa.class);
+        startActivity(addNewPostIntent);
+    }
 
     @Override
     protected void onStart()
@@ -358,7 +361,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_find_friends:
-                Toast.makeText(this, "Find Friends", Toast.LENGTH_SHORT).show();
+                SendUserToMapa();
                 break;
 
             case R.id.nav_messages:
