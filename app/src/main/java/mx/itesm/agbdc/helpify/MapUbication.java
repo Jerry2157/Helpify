@@ -1,6 +1,7 @@
 package mx.itesm.agbdc.helpify;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,6 +39,8 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
     private LatLng prevPoint;
     private MarkerOptions marker;
     private MarkerOptions prevMarker;
+    double latMarker;
+    double lonMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +142,13 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
 
         /*Intent show = new Intent(getBaseContext(), ShowInfo.class);
         startActivity(show);*/
+        Intent returnIntent = new Intent();
+        String result = Double.toString(latMarker) +","+ Double.toString(lonMarker);
+        returnIntent.putExtra("result",result);
+        setResult(Activity.RESULT_OK,returnIntent);
         Log.i("marker", marker.getId());
+        finish();
+
         return true;
 
     }
@@ -176,6 +185,8 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
                         snippet("Haz click de nuevo");
                 if(point != prevPoint)
                 {
+                    latMarker = point.latitude;
+                    lonMarker = point.longitude;
                     mMap.clear();
                     prevPoint = point;
                     mMap.addMarker(marker);

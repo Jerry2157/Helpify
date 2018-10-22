@@ -2,6 +2,7 @@ package mx.itesm.agbdc.helpify;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView NavProfileImage;
     private TextView NavProfileUserName;
     private ImageButton AddNewPostButton;
-
+    private ArrayList<String> coordenadas;
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef, PostsRef;
@@ -109,29 +115,24 @@ public class MainActivity extends AppCompatActivity
         NavProfileImage = (CircleImageView) navView.findViewById(R.id.nav_profile_image);
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
 
+        coordenadas = new ArrayList<>();
 
         UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                if(dataSnapshot.exists())
-                {
-                    if(dataSnapshot.hasChild("fullname"))
-                    {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.hasChild("fullname")) {
                         String fullname = dataSnapshot.child("fullname").getValue().toString();
                         NavProfileUserName.setText(fullname);
                     }
-                    if(dataSnapshot.hasChild("profileimage"))
-                    {
+                    if (dataSnapshot.hasChild("profileimage")) {
                         String image = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(MainActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
                     }
-                    if(dataSnapshot.hasChild("InstitutionID")){
+                    if (dataSnapshot.hasChild("InstitutionID")) {
                         String InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
                         GiveInstitutionRights(InstitutionID);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
+        capturarDatos();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
@@ -261,6 +262,33 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void capturarDatos()
+    {
+        FirebaseDatabase.getInstance().getReference().child("Users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            HashMap a = (HashMap) snapshot.getValue();
+                            String latdb;
+                            String londb;
+                            Log.i("institutoID", a.get("InstitutionID").toString());
+                            if(!a.get("InstitutionID").toString().equals("none"))
+                            {
+                                latdb = (a.get("instLatitud").toString());
+                                londb = (a.get("instLongitud").toString());
+                                Log.i("coordenadas", Integer.toString(coordenadas.size()));
+                                Log.i("COO", String.valueOf(latdb) + ", " + String.valueOf(londb));
+                                coordenadas.add(latdb);
+                                coordenadas.add(londb);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
 
 
     private void SendUserToPostActivity()
@@ -271,8 +299,19 @@ public class MainActivity extends AppCompatActivity
 
     private void SendUserToMapa()
     {
-        Intent addNewPostIntent = new Intent(MainActivity.this, Mapa.class);
-        startActivity(addNewPostIntent);
+        //Bundle b = new Bundle();
+        //b.putStringArrayList("llave", coordenadas);
+        String latlng [] = new String[coordenadas.size()];
+        int k = 0;
+        for(String cc: coordenadas)
+        {
+            latlng[k] = cc;
+            Log.i("double", cc);
+        }
+        Intent sendUserToMapa = new Intent(MainActivity.this, Mapa.class);
+        sendUserToMapa.putExtra("Coordenadas", latlng);
+        startActivity(sendUserToMapa);
+
     }
 
     private void SendUserToMapaUbicacion()

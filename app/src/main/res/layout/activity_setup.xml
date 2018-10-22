@@ -73,7 +73,7 @@
         android:background="@drawable/input"
         android:padding="12dp"
         android:text="Mapa"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/setup_information_button2"
@@ -104,14 +104,14 @@
         android:layout_width="277dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="410dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="410dp"
         android:background="@drawable/input"
         android:drawableLeft="@drawable/username"
         android:ems="10"
         android:hint="institutionID"
         android:inputType="textMultiLine"
         android:padding="10dp"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
 </RelativeLayout>

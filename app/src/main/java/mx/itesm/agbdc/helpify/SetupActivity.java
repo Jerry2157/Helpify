@@ -1,5 +1,6 @@
 package mx.itesm.agbdc.helpify;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -72,7 +74,7 @@ public class SetupActivity extends AppCompatActivity
         SendToMapaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SendUserToMapaUbicacion();
             }
         });
 
@@ -80,7 +82,7 @@ public class SetupActivity extends AppCompatActivity
         UserName = (EditText) findViewById(R.id.setup_username);
         FullName = (EditText) findViewById(R.id.setup_full_name);
         CountryName = (EditText) findViewById(R.id.setup_country_name);
-        SaveInformationbuttion = (Button) findViewById(R.id.setup_information_button);
+        SaveInformationbuttion = (Button) findViewById(R.id.setup_information_button2);
         ProfileImage = (CircleImageView) findViewById(R.id.setup_profile_image);
         loadingBar = new ProgressDialog(this);
 
@@ -93,10 +95,12 @@ public class SetupActivity extends AppCompatActivity
                     //IsInstitution = "true";
                     SwitchInstitutionOn = true;
                     InstitutionID.setVisibility(View.VISIBLE);
+                    SendToMapaButton.setVisibility(View.VISIBLE);
                 }else{
                     //IsInstitution = "false";
                     SwitchInstitutionOn = false;
                     InstitutionID.setVisibility(View.INVISIBLE);
+                    SendToMapaButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -148,12 +152,30 @@ public class SetupActivity extends AppCompatActivity
         });
     }
 
+    private void SendUserToMapaUbicacion()
+    {
+        Intent i = new Intent(this, MapUbication.class);
+        startActivityForResult(i, 24);
+    }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("requestcode", Integer.toString(requestCode));
+        if (requestCode == 24 && data!=null) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
+                Log.i("resultado", result);
+                String [] parts = result.split(",");
+                LatitudToFirebase = parts[0];
+                LongitudToFirebase = parts[1];
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
 
         if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null)
         {

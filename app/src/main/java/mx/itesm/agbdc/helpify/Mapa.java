@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,8 +23,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Mapa extends FragmentActivity implements OnMapReadyCallback, LocationListener,
         GoogleMap.OnMarkerClickListener {
@@ -33,6 +40,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     private static final int  PERMISO_GPS   = 200;
     double lat;
     double lon;
+    ArrayList<LatLng> latLngs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +49,45 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().
                 findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        latLngs = new ArrayList<>();
+        Intent intent = getIntent();
+        String[] myStrings = intent.getStringArrayExtra("Coordenadas");
 
+        /*for(int i = 0; i < myStrings.length; i = i + 2)
+        {
+            double a = Double.valueOf(myStrings[i]);
+            double b = Double.valueOf(myStrings[i+1]);
+            latLngs.add(new LatLng(a, b));
+        }*/
         configurarGPS();
+    }
+
+    private void capturarDatos()
+    {
+        FirebaseDatabase.getInstance().getReference().child("Users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            HashMap a = (HashMap) snapshot.getValue();
+                            Double latdb;
+                            Double londb;
+                            Log.i("institutoID", a.get("InstitutionID").toString());
+                            if(!a.get("InstitutionID").toString().equals("none"))
+                            {
+
+                                latdb = Double.parseDouble(a.get("instLatitud").toString());
+                                londb = Double.parseDouble(a.get("instLongitud").toString());
+                                Log.i("size", Integer.toString(latLngs.size()));
+                                Log.i("LatLng", String.valueOf(latdb) + ", " + String.valueOf(londb));
+                                latLngs.add(new LatLng(latdb, londb));
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     private void configurarGPS() {
@@ -76,10 +121,18 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
 
     private void crearMarkers()
     {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ruta = database.getReference("Alumnos/");
 
-        LatLng lugar = new LatLng(19.768725, -99.197813);
+
+        Log.i("Markers", "Marcadores");
+
+        Log.i("SIZE", Integer.toString(latLngs.size()));
+        for (LatLng lt: latLngs)
+        {
+            Log.i("LATLON: ", lt.toString());
+            mMap.addMarker(new MarkerOptions().position(lt));
+        }
+
+        /*LatLng lugar = new LatLng(19.768725, -99.197813);
         myMarker1 = mMap.addMarker(new MarkerOptions().position(lugar).title("Lugar1").snippet("L1"));
         myMarker2 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.767355,
                 -99.197900)).title("Lugar2").snippet("L2"));
@@ -89,7 +142,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
                 -99.201575)).title("Lugar4").snippet("L4"));
         myMarker5 = mMap.addMarker(new MarkerOptions().position(new LatLng(19.770159,
                 -99.199597)).title("Lugar5").snippet("L5"));
-    }
+*/    }
 
     @Override
     protected void onStart() {
@@ -104,6 +157,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
             gps.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
 
         }
+
     }
 
     @Override
@@ -188,6 +242,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         }
         mMap.setOnMarkerClickListener(this);
         //mMap.setMyLocationEnabled(true);
+
         crearMarkers();
 
     }
