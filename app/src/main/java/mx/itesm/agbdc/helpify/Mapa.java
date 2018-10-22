@@ -53,12 +53,12 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         Intent intent = getIntent();
         String[] myStrings = intent.getStringArrayExtra("Coordenadas");
 
-        /*for(int i = 0; i < myStrings.length; i = i + 2)
+        for(int i = 0; i < (myStrings.length/2); i++)
         {
-            double a = Double.valueOf(myStrings[i]);
-            double b = Double.valueOf(myStrings[i+1]);
+            double a = Double.valueOf(myStrings[(2 * i)]);
+            double b = Double.valueOf(myStrings[(2 * i) + 1]);
             latLngs.add(new LatLng(a, b));
-        }*/
+        }
         configurarGPS();
     }
 

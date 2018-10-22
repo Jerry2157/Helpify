@@ -279,8 +279,12 @@ public class MainActivity extends AppCompatActivity
                                 londb = (a.get("instLongitud").toString());
                                 Log.i("coordenadas", Integer.toString(coordenadas.size()));
                                 Log.i("COO", String.valueOf(latdb) + ", " + String.valueOf(londb));
-                                coordenadas.add(latdb);
-                                coordenadas.add(londb);
+                                if(!latdb.equals("null") && !londb.equals("null"))
+                                {
+                                    coordenadas.add(latdb);
+                                    coordenadas.add(londb);
+                                }
+
                             }
                         }
                     }
@@ -306,7 +310,8 @@ public class MainActivity extends AppCompatActivity
         for(String cc: coordenadas)
         {
             latlng[k] = cc;
-            Log.i("double", cc);
+            Log.i("double", latlng[k]);
+            k++;
         }
         Intent sendUserToMapa = new Intent(MainActivity.this, Mapa.class);
         sendUserToMapa.putExtra("Coordenadas", latlng);
