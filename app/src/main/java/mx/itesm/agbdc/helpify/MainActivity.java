@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity
     private void GiveInstitutionRights(String InstitutionID) {
         if(InstitutionID.equals("null")){
             AddNewPostButton.setVisibility(View.INVISIBLE);
+            navigationView.getMenu().findItem(R.id.nav_post).setVisible(false);
         }else{
             AddNewPostButton.setVisibility(View.VISIBLE);
         }
