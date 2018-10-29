@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         DisplayAllUsersPosts();
     }
 
@@ -273,13 +272,14 @@ public class MainActivity extends AppCompatActivity
                             HashMap a = (HashMap) snapshot.getValue();
                             for(Object k: a.keySet())
                             {
-                                Log.i("kMap", k.toString());
+                                //Log.i("kMap", k.toString());
                             }
                             String latdb;
                             String londb;
                             String fName;
-                            if(!a.get("InstitutionID").toString().equals("none"))
+                            if(!a.get("InstitutionID").toString().equals("null"))
                             {
+                                Log.i("username", a.get("username").toString());
                                 latdb = (a.get("instLatitud").toString());
                                 londb = (a.get("instLongitud").toString());
                                 fName = (a.get("fullname").toString());
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity
         for(String cc: coordenadas)
         {
             latlng[k] = cc;
-            Log.i("double", latlng[k]);
+            //Log.i("double", latlng[k]);
             k++;
         }
         Intent sendUserToMapa = new Intent(MainActivity.this, Mapa.class);

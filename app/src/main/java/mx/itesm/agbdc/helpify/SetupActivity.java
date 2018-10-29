@@ -46,6 +46,8 @@ public class SetupActivity extends AppCompatActivity
     private String IsInstitution;
     private boolean SwitchInstitutionOn;
 
+    private boolean perfil;
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
@@ -62,8 +64,9 @@ public class SetupActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
-
-
+        LatitudToFirebase = "null";
+        LongitudToFirebase = "null";
+        perfil = false;
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
@@ -135,6 +138,7 @@ public class SetupActivity extends AppCompatActivity
                 {
                     if (dataSnapshot.hasChild("profileimage"))
                     {
+                        perfil = true;
                         String image = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(SetupActivity.this).load(image).placeholder(R.drawable.profile).into(ProfileImage);
                     }
@@ -208,6 +212,7 @@ public class SetupActivity extends AppCompatActivity
                     {
                         if(task.isSuccessful())
                         {
+
                             Toast.makeText(SetupActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
 
                             final String downloadUrl = task.getResult().getDownloadUrl().toString();
@@ -223,6 +228,8 @@ public class SetupActivity extends AppCompatActivity
                                                 startActivity(selfIntent);
 
                                                 Toast.makeText(SetupActivity.this, "Profile Image stored to Firebase Database Successfully...", Toast.LENGTH_SHORT).show();
+                                                perfil = true;
+                                                Log.i("perfilstatus", Boolean.toString(perfil));
                                                 loadingBar.dismiss();
                                             }
                                             else
@@ -253,20 +260,29 @@ public class SetupActivity extends AppCompatActivity
         String fullname = FullName.getText().toString();
         String country = CountryName.getText().toString();
         String institutionId = InstitutionID.getText().toString();
+        Log.i("Perfil final:", Boolean.toString(perfil));
 
-        if(TextUtils.isEmpty(username))
+        if(!perfil)
+        {
+            Toast.makeText(this, "Please select an image for your profile...", Toast.LENGTH_SHORT).show();
+        }
+        else if((LongitudToFirebase.equals("null") || LongitudToFirebase.equals("null")) && SwitchInstitutionOn)
+        {
+            Toast.makeText(this, "Please select your ubication...", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(username))
         {
             Toast.makeText(this, "Please write your username...", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(fullname))
+        else if(TextUtils.isEmpty(fullname))
         {
             Toast.makeText(this, "Please write your full name...", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(country))
+        else if(TextUtils.isEmpty(country))
         {
             Toast.makeText(this, "Please write your country...", Toast.LENGTH_SHORT).show();
         }
-        if(SwitchInstitutionOn == true && TextUtils.isEmpty(institutionId)){
+        else if(SwitchInstitutionOn && TextUtils.isEmpty(institutionId)){
 
             Toast.makeText(this, "If you are an Institution please write your ID...", Toast.LENGTH_SHORT).show();
         }
