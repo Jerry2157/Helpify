@@ -56,25 +56,6 @@ public class MainActivity extends AppCompatActivity
     String currentUserID;
 
 
-    /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-
-                    return true;
-                case R.id.navigation_dashboard:
-
-                    return true;
-                case R.id.navigation_notifications:
-                    return true;
-            }
-            return false;
-        }
-    };*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -203,6 +184,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(View view) {
                                 Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
+                                Log.i("PostKey",PostKey);
                                 clickPostIntent.putExtra("PostKey",PostKey);
 
                                 startActivity(clickPostIntent);
@@ -308,8 +290,6 @@ public class MainActivity extends AppCompatActivity
 
     private void SendUserToMapa()
     {
-        //Bundle b = new Bundle();
-        //b.putStringArrayList("llave", coordenadas);
         String latlng [] = new String[coordenadas.size()];
         int k = 0;
         for(String cc: coordenadas)
@@ -370,8 +350,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
-
     private void SendUserToSetupActivity()
     {
         Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
@@ -379,8 +357,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(setupIntent);
         finish();
     }
-
-
 
     private void SendUserToLoginActivity()
     {
