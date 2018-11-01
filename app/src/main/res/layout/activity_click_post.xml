@@ -11,28 +11,34 @@
         android:id="@+id/nombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/click_post_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="150dp"
-        android:maxHeight="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:scaleType="fitXY"
+        android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
+        android:maxHeight="200dp"
+        android:minHeight="100dp"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/select_image" />
 
     <TextView
         android:id="@+id/click_post_description"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_above="@+id/donar_post_button"
         android:layout_alignParentStart="true"
-        android:text="Post Description" />
+        android:layout_centerVertical="true"
+        android:text="Post Description"
+        android:textAlignment="viewStart"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/donar_post_button"
@@ -40,9 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="87dp"
+        android:layout_marginBottom="128dp"
         android:background="@drawable/button"
-        android:text="DONAR" />
+        android:text="DONAR"
+        android:clickable="true"
+        />
 
     <Button
         android:id="@+id/delete_post_button"

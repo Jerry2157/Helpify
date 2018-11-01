@@ -30,6 +30,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity
@@ -157,9 +163,11 @@ public class LoginActivity extends AppCompatActivity
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.i("task: ",task.toString());
                         if (task.isSuccessful())
                         {
                             Log.d(TAG, "signInWithCredential:success");
+                            Log.i("succes", "succesful task");
                             SendUserToMainActivity();
                             loadingBar.dismiss();
                         }
@@ -182,12 +190,35 @@ public class LoginActivity extends AppCompatActivity
     {
         super.onStart();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
 
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         if(currentUser != null)
         {
-            SendUserToMainActivity();
+            final String current = currentUser.getUid();
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.hasChild(current)) {
+                        Log.i("current user", current);
+                        SendUserToMainActivity();
+
+                    }
+                    else
+                    {
+                        Log.i("rechazado user", current);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
+
+
     }
 
 
@@ -207,10 +238,10 @@ public class LoginActivity extends AppCompatActivity
         }
         else
         {
-            loadingBar.setTitle("Login");
+            /*loadingBar.setTitle("Login");
             loadingBar.setMessage("Please wait, while we are allowing you to login into your Account...");
             loadingBar.setCanceledOnTouchOutside(true);
-            loadingBar.show();
+            loadingBar.show();*/
 
 
             mAuth.signInWithEmailAndPassword(email, password)
@@ -223,13 +254,13 @@ public class LoginActivity extends AppCompatActivity
                                 SendUserToMainActivity();
 
                                 Toast.makeText(LoginActivity.this, "you are Logged In successfully.", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
+                                //loadingBar.dismiss();
                             }
                             else
                             {
                                 String message = task.getException().getMessage();
                                 Toast.makeText(LoginActivity.this, "Error occured: " + message, Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
+                                //loadingBar.dismiss();
                             }
                         }
                     });

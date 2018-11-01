@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef, PostsRef;
+    private String InstitutionID;
 
     String currentUserID;
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                         Picasso.with(MainActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
                     }
                     if (dataSnapshot.hasChild("InstitutionID")) {
-                        String InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
+                         InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
                         GiveInstitutionRights(InstitutionID);
                     } else {
                         Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity
                         )
                 {
                     @Override
-                    protected void populateViewHolder(PostsViewHolder viewHolder, Posts model, int position)
+                    protected void populateViewHolder(PostsViewHolder viewHolder, final Posts model, int position)
                     {
 
                         final String PostKey = getRef(position).getKey();
@@ -183,9 +184,11 @@ public class MainActivity extends AppCompatActivity
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                String[] myString = {PostKey, InstitutionID, model.getUid()};
+
                                 Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
-                                Log.i("PostKey",PostKey);
-                                clickPostIntent.putExtra("PostKey",PostKey);
+
+                                clickPostIntent.putExtra("PostKey", myString);
 
                                 startActivity(clickPostIntent);
                             }

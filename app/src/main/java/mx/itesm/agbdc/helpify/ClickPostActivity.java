@@ -1,8 +1,10 @@
 package mx.itesm.agbdc.helpify;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.UUID;
 
 public class ClickPostActivity extends AppCompatActivity {
 
@@ -31,9 +39,13 @@ public class ClickPostActivity extends AppCompatActivity {
     private Button DeletePostButton, DonarPostButton;
     private DatabaseReference ClickPostRef;
     private FirebaseAuth mAuth;
-
+    private FirebaseDatabase Donacion;
+    private DatabaseReference donacionRef;
+    private String clave;
+    private ProgressDialog loadingBar;
+    private String institution;
     private String PostKey, currentUserID, databaseUserID, description, image;
-
+    private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,18 +54,26 @@ public class ClickPostActivity extends AppCompatActivity {
         //Log.i("ClickPostActivity", "estoy aqui");
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
+        loadingBar = new ProgressDialog(this);
 
-        PostKey = getIntent().getExtras().get("PostKey").toString();
+        String[] myStrings = getIntent().getStringArrayExtra("PostKey");
+        PostKey = myStrings[0];
+        uid = myStrings[2];
         ClickPostRef = FirebaseDatabase.getInstance().getReference().child("Post").child(PostKey);
+        DatabaseReference inst = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+        institution = myStrings[1];
 
         PostImage = (ImageView)findViewById(R.id.click_post_image);
         PostDescription = (TextView)findViewById(R.id.click_post_description);
         DeletePostButton =(Button)findViewById(R.id.delete_post_button);
         DonarPostButton = (Button)findViewById(R.id.donar_post_button);
         PostCentro = (TextView)findViewById(R.id.nombre);
+        Donacion = FirebaseDatabase.getInstance();
+
 
         DeletePostButton.setVisibility(View.INVISIBLE);
         capturarDatos(PostKey);
+
         ClickPostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -70,12 +90,7 @@ public class ClickPostActivity extends AppCompatActivity {
                         DonarPostButton.setVisibility(View.VISIBLE);
                     }
 
-                    DonarPostButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EditCurrentPost(description);
-                        }
-                    });
+
                 }
             }
 
@@ -88,6 +103,32 @@ public class ClickPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DeleteCurrentPost();
+            }
+        });
+        Log.i("institution", institution);
+        if(!institution.equals("null") && uid.equals(currentUserID))
+        {
+            DeletePostButton.setVisibility(View.VISIBLE);
+            DonarPostButton.setVisibility(View.INVISIBLE);
+        }
+        else if(institution.equals("null"))
+        {
+            DeletePostButton.setVisibility(View.INVISIBLE);
+            DonarPostButton.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            DeletePostButton.setVisibility(View.INVISIBLE);
+            DonarPostButton.setVisibility(View.INVISIBLE);
+        }
+
+        DonarPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Donar();
+                Log.i("buttomdonar", "alguien va a donar");
+                //EditCurrentPost(description);
+
             }
         });
 
@@ -104,6 +145,7 @@ public class ClickPostActivity extends AppCompatActivity {
 
                             PostDescription.setText(a.get("description").toString());
                             PostCentro.setText(a.get("fullname").toString());
+
                             Picasso.with(getApplicationContext()).load(a.get("postimage").toString()).into(PostImage);
 
 
@@ -115,6 +157,58 @@ public class ClickPostActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void Donar()
+    {
+        Log.i("quiere", "donar");
+        loadingBar.setTitle("DOnation");
+        loadingBar.setMessage("Please wait, while we are registering your donation..");
+        loadingBar.show();
+        loadingBar.setCanceledOnTouchOutside(true);
+        clave = (new randomStringGenerator()).generateString();
+        donacionRef = Donacion.getReference().child("Donaciones").child(clave);
+        HashMap donarMap = new HashMap();
+        Calendar calFordDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+        String saveCurrentDate = currentDate.format(calFordDate.getTime());
+        donarMap.put("userID", currentUserID);
+        donarMap.put("postKey", PostKey);
+        donarMap.put("Fecha_solicitud", saveCurrentDate);
+        donarMap.put("Fecha_realizdo", "null");
+        donarMap.put("Status", "pendiente");
+        donacionRef.updateChildren(donarMap).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task)
+            {
+                if(task.isSuccessful())
+                {
+                    SendUserToMainActivity();
+                    Toast.makeText(ClickPostActivity.this, "Your donation code is: " + clave, Toast.LENGTH_LONG).show();
+                    loadingBar.dismiss();
+                }
+                else
+                {
+                    String message =  task.getException().getMessage();
+                    Toast.makeText(ClickPostActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
+                    loadingBar.dismiss();
+                }
+            }
+        });
+
+    }
+
+    public class randomStringGenerator {
+        public  void main(String[] args) {
+            //System.out.println(generateString());
+        }
+
+        public  String generateString() {
+            String uuid = UUID.randomUUID().toString();
+            uuid.replace("-", "");
+            return uuid.substring(0, 8);
+        }
+    }
+
 
     private void EditCurrentPost(String description) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ClickPostActivity.this);
