@@ -216,7 +216,7 @@ public class ClickPostActivity extends AppCompatActivity {
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren())
                 {
                     Log.i("donacion:", childSnapshot.getValue().toString());
-                    if(childSnapshot.child("userID").getValue().toString().equals(currentUserID))
+                    if(childSnapshot.child("userID").getValue().toString().equals(currentUserID) && childSnapshot.child("postKey").getValue().toString().equals(PostKey))
                     {
                         Toast.makeText(ClickPostActivity.this, "You have already donated", Toast.LENGTH_LONG).show();
                         DonarView.setVisibility(View.VISIBLE);
