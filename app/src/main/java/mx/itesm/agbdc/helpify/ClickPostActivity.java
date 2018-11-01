@@ -35,7 +35,7 @@ import java.util.UUID;
 public class ClickPostActivity extends AppCompatActivity {
 
     private ImageView PostImage;
-    private TextView PostDescription, PostCentro;
+    private TextView PostDescription, PostCentro, DonarView;
     private Button DeletePostButton, DonarPostButton;
     private DatabaseReference ClickPostRef;
     private FirebaseAuth mAuth;
@@ -46,6 +46,9 @@ public class ClickPostActivity extends AppCompatActivity {
     private String institution;
     private String PostKey, currentUserID, databaseUserID, description, image;
     private String uid;
+    private EditText claveBox;
+    private boolean donarExecuted;
+    private boolean registroBool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +65,15 @@ public class ClickPostActivity extends AppCompatActivity {
         ClickPostRef = FirebaseDatabase.getInstance().getReference().child("Post").child(PostKey);
         DatabaseReference inst = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
         institution = myStrings[1];
-
+        donarExecuted = false;
         PostImage = (ImageView)findViewById(R.id.click_post_image);
         PostDescription = (TextView)findViewById(R.id.click_post_description);
         DeletePostButton =(Button)findViewById(R.id.delete_post_button);
         DonarPostButton = (Button)findViewById(R.id.donar_post_button);
         PostCentro = (TextView)findViewById(R.id.nombre);
+        DonarView = (TextView)findViewById(R.id.numeroDonar);
         Donacion = FirebaseDatabase.getInstance();
-
+        claveBox = (EditText)findViewById(R.id.claveText);
 
         DeletePostButton.setVisibility(View.INVISIBLE);
         capturarDatos(PostKey);
@@ -109,29 +113,71 @@ public class ClickPostActivity extends AppCompatActivity {
         if(!institution.equals("null") && uid.equals(currentUserID))
         {
             DeletePostButton.setVisibility(View.VISIBLE);
-            DonarPostButton.setVisibility(View.INVISIBLE);
+            DonarPostButton.setVisibility(View.VISIBLE);
+            DonarPostButton.setText("Registrar");
+            claveBox.setVisibility(View.VISIBLE);
+            registroBool = true;
         }
         else if(institution.equals("null"))
         {
             DeletePostButton.setVisibility(View.INVISIBLE);
             DonarPostButton.setVisibility(View.VISIBLE);
+            claveBox.setVisibility(View.INVISIBLE);
+            registroBool = false;
         }
         else
         {
             DeletePostButton.setVisibility(View.INVISIBLE);
             DonarPostButton.setVisibility(View.INVISIBLE);
+            claveBox.setVisibility(View.INVISIBLE);
         }
-
+        DonarView.setVisibility(View.INVISIBLE);
         DonarPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Donar();
-                Log.i("buttomdonar", "alguien va a donar");
-                //EditCurrentPost(description);
+                if(registroBool)
+                {
+                    Registrar();
+                }
+                else
+                {
+                    Donar();
+                }
 
             }
         });
 
+    }
+
+    private void Registrar()
+    {
+        final String donaClave = claveBox.getText().toString();
+        donacionRef = Donacion.getReference().child("Donaciones");
+
+        donacionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                Calendar calFordDate = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+                String saveCurrentDate = currentDate.format(calFordDate.getTime());
+                if(dataSnapshot.hasChild(donaClave))
+                {
+                    donacionRef.child(donaClave).child("Fecha_realizdo").setValue(saveCurrentDate);
+                    donacionRef.child(donaClave).child("Status").setValue("Realizado");
+                    Toast.makeText(ClickPostActivity.this, "The donation has been registered", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void capturarDatos(final String key)
@@ -160,7 +206,43 @@ public class ClickPostActivity extends AppCompatActivity {
 
     private void Donar()
     {
-        Log.i("quiere", "donar");
+        donacionRef = Donacion.getReference().child("Donaciones");
+
+        donacionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                boolean existe = false;
+                for (DataSnapshot childSnapshot: dataSnapshot.getChildren())
+                {
+                    Log.i("donacion:", childSnapshot.getValue().toString());
+                    if(childSnapshot.child("userID").getValue().toString().equals(currentUserID))
+                    {
+                        Toast.makeText(ClickPostActivity.this, "You have already donated", Toast.LENGTH_LONG).show();
+                        DonarView.setVisibility(View.VISIBLE);
+                        DonarView.setText(childSnapshot.getKey());
+                        existe = true;
+                        break;
+                    }
+                }
+                 if(!donarExecuted && !existe)
+                    {
+                        makeDonacion();
+                        donarExecuted = true;
+                    }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void makeDonacion()
+    {
         loadingBar.setTitle("DOnation");
         loadingBar.setMessage("Please wait, while we are registering your donation..");
         loadingBar.show();
@@ -194,9 +276,7 @@ public class ClickPostActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
     public class randomStringGenerator {
         public  void main(String[] args) {
             //System.out.println(generateString());
@@ -244,6 +324,7 @@ public class ClickPostActivity extends AppCompatActivity {
         Toast.makeText(this, "post has been eliminated...",Toast.LENGTH_SHORT).show();
 
     }
+
     private void SendUserToMainActivity()
     {
         Intent mainIntent = new Intent(ClickPostActivity.this, MainActivity.class);

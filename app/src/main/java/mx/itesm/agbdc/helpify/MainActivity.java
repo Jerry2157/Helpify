@@ -330,8 +330,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
     private void CheckUserExistence()
     {
         final String current_user_id = mAuth.getCurrentUser().getUid();
