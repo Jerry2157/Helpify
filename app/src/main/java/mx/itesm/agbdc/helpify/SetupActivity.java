@@ -158,6 +158,7 @@ public class SetupActivity extends AppCompatActivity
     private void SendUserToMapaUbicacion()
     {
         Intent i = new Intent(this, MapUbication.class);
+        Log.i("requestcode", Integer.toString(24));
         startActivityForResult(i, 24);
     }
 

@@ -201,8 +201,18 @@ public class LoginActivity extends AppCompatActivity
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.hasChild(current)) {
-                        Log.i("current user", current);
-                        SendUserToMainActivity();
+                        if(snapshot.child(current).hasChild("fullname") && snapshot.child(current).hasChild("country"))
+                        {
+                            Log.i("current user", current);
+
+                            SendUserToMainActivity();
+
+                        }
+                        else
+                        {
+                            Log.i("erased user", current);
+                            snapshot.child(current).getRef().setValue(null);
+                        }
 
                     }
                     else
@@ -251,6 +261,7 @@ public class LoginActivity extends AppCompatActivity
                         {
                             if(task.isSuccessful())
                             {
+                                Log.i("allowing user to ", "log in");
                                 SendUserToMainActivity();
 
                                 Toast.makeText(LoginActivity.this, "you are Logged In successfully.", Toast.LENGTH_SHORT).show();

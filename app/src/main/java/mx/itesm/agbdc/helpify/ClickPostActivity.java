@@ -161,16 +161,34 @@ public class ClickPostActivity extends AppCompatActivity {
                 Calendar calFordDate = Calendar.getInstance();
                 SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
                 String saveCurrentDate = currentDate.format(calFordDate.getTime());
-                if(dataSnapshot.hasChild(donaClave))
+                boolean registroDone = false;
+                if(!registroDone)
                 {
-                    donacionRef.child(donaClave).child("Fecha_realizdo").setValue(saveCurrentDate);
-                    donacionRef.child(donaClave).child("Status").setValue("Realizado");
-                    Toast.makeText(ClickPostActivity.this, "The donation has been registered", Toast.LENGTH_LONG).show();
+                    if(dataSnapshot.hasChild(donaClave))
+                    {
+                        String childPostKey = dataSnapshot.child(donaClave).child("postKey").getValue().toString();
+                        Log.i("childPostKey - postkey", childPostKey + "\t" + PostKey);
+                        if(childPostKey.equals(PostKey))
+                        {
+
+                            donacionRef.child(donaClave).child("Fecha_realizdo").setValue(saveCurrentDate);
+                            donacionRef.child(donaClave).child("Status").setValue("Realizado");
+
+                            Toast.makeText(ClickPostActivity.this, "The donation has been registered", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
+                        Log.i("rechazado postkey",  PostKey);
+                    }
+
                 }
-                else
-                {
-                    Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
-                }
+                registroDone = true;
             }
 
             @Override

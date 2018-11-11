@@ -101,7 +101,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
         double newLat = location.getLatitude();
         double newLon = location.getLongitude();
         double distance = measure(lat, lon, newLat, newLon);
-        if(distance > 10)
+        if(distance > 15)
         {
             lat = newLat;
             lon = newLon;
@@ -161,6 +161,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
                 PackageManager.PERMISSION_GRANTED)
         {
             mMap.setMyLocationEnabled(true);
+            Log.i("Location", "set");
             Location myLocation = gps.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
             if ( myLocation!=null) {

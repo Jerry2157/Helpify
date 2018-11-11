@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity
                          InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
                         GiveInstitutionRights(InstitutionID);
                     } else {
+                        Log.i("erased user", dataSnapshot.getKey());
+                        dataSnapshot.getRef().setValue(null);
                         Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -262,19 +264,24 @@ public class MainActivity extends AppCompatActivity
                             String latdb;
                             String londb;
                             String fName;
-                            if(!a.get("InstitutionID").toString().equals("null"))
-                            {
-                                Log.i("username", a.get("username").toString());
-                                latdb = (a.get("instLatitud").toString());
-                                londb = (a.get("instLongitud").toString());
-                                fName = (a.get("fullname").toString());
-                                if(!latdb.equals("null") && !londb.equals("null"))
-                                {
-                                    coordenadas.add(latdb);
-                                    coordenadas.add(londb);
-                                    coordenadas.add(fName);
-                                }
+                            try {
+                                String ins = a.get("InstitutionID").toString();
+                                if (!ins.equals("null")) {
+                                    Log.i("username", a.get("username").toString());
+                                    latdb = (a.get("instLatitud").toString());
+                                    londb = (a.get("instLongitud").toString());
+                                    fName = (a.get("fullname").toString());
+                                    if (!latdb.equals("null") && !londb.equals("null")) {
+                                        coordenadas.add(latdb);
+                                        coordenadas.add(londb);
+                                        coordenadas.add(fName);
+                                    }
 
+                                }
+                            }catch (Exception e)
+                            {
+                                Log.i("erased user", snapshot.getKey());
+                                snapshot.getRef().setValue(null);
                             }
                         }
                     }
@@ -332,23 +339,30 @@ public class MainActivity extends AppCompatActivity
 
     private void CheckUserExistence()
     {
-        final String current_user_id = mAuth.getCurrentUser().getUid();
+        try{
+            final String current_user_id = mAuth.getCurrentUser().getUid();
 
-        UsersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                if(!dataSnapshot.hasChild(current_user_id))
+
+            UsersRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot)
                 {
-                    SendUserToSetupActivity();
+                    if(!dataSnapshot.hasChild(current_user_id))
+                    {
+                        SendUserToSetupActivity();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e)
+        {
+            Log.i("failed user", mAuth.getCurrentUser().toString());
+        }
+
     }
 
     private void SendUserToSetupActivity()
