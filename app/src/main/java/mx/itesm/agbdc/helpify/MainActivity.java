@@ -115,9 +115,10 @@ public class MainActivity extends AppCompatActivity
                          InstitutionID = dataSnapshot.child("InstitutionID").getValue().toString();
                         GiveInstitutionRights(InstitutionID);
                     } else {
-                        Log.i("erased user", dataSnapshot.getKey());
-                        dataSnapshot.getRef().setValue(null);
-                        Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
+                        CheckUserExistence();
+                        //Log.i("erased user main", dataSnapshot.getKey());
+                        //dataSnapshot.getRef().setValue(null);
+                        //Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity
                                 }
                             }catch (Exception e)
                             {
-                                Log.i("erased user", snapshot.getKey());
+                                Log.i("erased user captura", snapshot.getKey());
                                 snapshot.getRef().setValue(null);
                             }
                         }
@@ -349,6 +350,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     if(!dataSnapshot.hasChild(current_user_id))
                     {
+                        Log.i("usuario", "no debia ser borrado");
                         SendUserToSetupActivity();
                     }
                 }
