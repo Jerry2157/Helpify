@@ -54,7 +54,6 @@ public class ClickPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_post);
 
-        //Log.i("ClickPostActivity", "estoy aqui");
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         loadingBar = new ProgressDialog(this);
@@ -135,7 +134,7 @@ public class ClickPostActivity extends AppCompatActivity {
         DonarPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(registroBool)
+                if(registroBool && !claveBox.getText().toString().equals(""))
                 {
                     Registrar();
                 }
@@ -154,7 +153,7 @@ public class ClickPostActivity extends AppCompatActivity {
         final String donaClave = claveBox.getText().toString();
         donacionRef = Donacion.getReference().child("Donaciones");
 
-        donacionRef.addValueEventListener(new ValueEventListener() {
+        donacionRef.addListenerForSingleValueEvent (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
@@ -245,8 +244,9 @@ public class ClickPostActivity extends AppCompatActivity {
                 }
                  if(!donarExecuted && !existe)
                     {
-                        makeDonacion();
                         donarExecuted = true;
+                        makeDonacion();
+
                     }
             }
 
@@ -282,7 +282,9 @@ public class ClickPostActivity extends AppCompatActivity {
             {
                 if(task.isSuccessful())
                 {
-                    SendUserToMainActivity();
+                    //SendUserToMainActivity();
+                    DonarView.setVisibility(View.VISIBLE);
+                    DonarView.setText(clave);
                     Toast.makeText(ClickPostActivity.this, "Your donation code is: " + clave, Toast.LENGTH_LONG).show();
                     loadingBar.dismiss();
                 }
@@ -341,6 +343,12 @@ public class ClickPostActivity extends AppCompatActivity {
         SendUserToMainActivity();
         Toast.makeText(this, "post has been eliminated...",Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     private void SendUserToMainActivity()
