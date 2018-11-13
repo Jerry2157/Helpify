@@ -210,7 +210,6 @@ public class LoginActivity extends AppCompatActivity
                             Log.i("erased user login", current);
                             snapshot.child(current).getRef().setValue(null);
                         }
-
                     }
                     else
                     {
