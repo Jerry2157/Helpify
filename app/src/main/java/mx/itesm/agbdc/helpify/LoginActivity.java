@@ -202,7 +202,6 @@ public class LoginActivity extends AppCompatActivity
                     if (snapshot.hasChild(current)) {
                         if(snapshot.child(current).hasChild("fullname") && snapshot.child(current).hasChild("country"))
                         {
-                            Log.i("current user", current);
 
                             SendUserToMainActivity();
 
