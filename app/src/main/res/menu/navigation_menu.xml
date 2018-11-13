@@ -22,10 +22,6 @@
         android:icon="@drawable/find_people"
         android:title="Ubicaciones_de_Centros"></item>
     <item
-        android:id="@+id/nav_messages"
-        android:title="Messaging"
-        android:icon="@drawable/messages"></item>
-    <item
         android:id="@+id/nav_Logout"
         android:icon="@drawable/logout"
         android:title="Logout"></item>

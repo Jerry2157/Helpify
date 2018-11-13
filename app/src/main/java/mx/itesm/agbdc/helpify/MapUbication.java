@@ -41,6 +41,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
     private MarkerOptions prevMarker;
     double latMarker;
     double lonMarker;
+    Location myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new
                                 Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)); // Abre settings
+                        setUbicacionInicial();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -162,19 +164,9 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
         {
             mMap.setMyLocationEnabled(true);
             Log.i("Location", "set");
-            Location myLocation = gps.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            myLocation = gps.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
-            if ( myLocation!=null) {
-                lat = myLocation.getLatitude();
-                lon = myLocation.getLongitude();
-            }
-            else
-            {
-                lat = 19.594210;
-                lon = -99.228167;
-            }
-            LatLng tec = new LatLng(lat, lon);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tec, 18));
+            setUbicacionInicial();
 
         }
         mMap.setOnMarkerClickListener(this);
@@ -195,5 +187,21 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+    }
+    void setUbicacionInicial()
+    {
+
+        if ( myLocation!=null) {
+            lat = myLocation.getLatitude();
+            lon = myLocation.getLongitude();
+        }
+        else
+        {
+            lat = 19.594210;
+            lon = -99.228167;
+
+        }
+        LatLng tec = new LatLng(lat, lon);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tec, 18));
     }
 }

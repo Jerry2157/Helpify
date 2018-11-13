@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -73,7 +74,7 @@ public class ClickPostActivity extends AppCompatActivity {
         DonarView = (TextView)findViewById(R.id.numeroDonar);
         Donacion = FirebaseDatabase.getInstance();
         claveBox = (EditText)findViewById(R.id.claveText);
-
+        //PostDescription.setMovementMethod(new ScrollingMovementMethod());
         DeletePostButton.setVisibility(View.INVISIBLE);
         capturarDatos(PostKey);
 

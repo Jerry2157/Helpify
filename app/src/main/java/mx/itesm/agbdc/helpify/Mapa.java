@@ -42,6 +42,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     double lon;
     ArrayList<String> names;
     ArrayList<LatLng> latLngs;
+    Location myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +85,15 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new
-                                Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)); // Abre settings
+                                Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        setUbicacionInicial();// Abre settings
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -98,8 +102,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
 
     private void crearMarkers()
     {
-
-
         Log.i("Markers", "Marcadores");
 
         Log.i("SIZE", Integer.toString(latLngs.size()));
@@ -192,26 +194,30 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
                 PackageManager.PERMISSION_GRANTED)
         {
             mMap.setMyLocationEnabled(true);
-            Location myLocation = gps.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
-            if ( myLocation!=null) {
-                lat = myLocation.getLatitude();
-                lon = myLocation.getLongitude();
-            }
-            else
-            {
-                lat = 19.594210;
-                lon = -99.228167;
-
-            }
-            LatLng tec = new LatLng(lat, lon);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tec, 18));
-
+            myLocation = gps.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            setUbicacionInicial();
         }
         mMap.setOnMarkerClickListener(this);
         //mMap.setMyLocationEnabled(true);
 
         crearMarkers();
 
+    }
+
+    void setUbicacionInicial()
+    {
+
+        if ( myLocation!=null) {
+            lat = myLocation.getLatitude();
+            lon = myLocation.getLongitude();
+        }
+        else
+        {
+            lat = 19.594210;
+            lon = -99.228167;
+
+        }
+        LatLng tec = new LatLng(lat, lon);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tec, 18));
     }
 }

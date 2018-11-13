@@ -344,13 +344,12 @@ public class MainActivity extends AppCompatActivity
             final String current_user_id = mAuth.getCurrentUser().getUid();
 
 
-            UsersRef.addValueEventListener(new ValueEventListener() {
+            UsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot)
                 {
                     if(!dataSnapshot.hasChild(current_user_id))
                     {
-                        Log.i("usuario", "no debia ser borrado");
                         SendUserToSetupActivity();
                     }
                 }
@@ -420,9 +419,6 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_find_friends:
                 SendUserToMapa();
-                break;
-
-            case R.id.nav_messages:
                 break;
 
 
