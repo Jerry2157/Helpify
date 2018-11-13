@@ -50,6 +50,7 @@ public class ClickPostActivity extends AppCompatActivity {
     private EditText claveBox;
     private boolean donarExecuted;
     private boolean registroBool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,12 +168,14 @@ public class ClickPostActivity extends AppCompatActivity {
                     if(dataSnapshot.hasChild(donaClave))
                     {
                         String childPostKey = dataSnapshot.child(donaClave).child("postKey").getValue().toString();
-                        Log.i("childPostKey - postkey", childPostKey + "\t" + PostKey);
+                        //Log.i("childPostKey - postkey", childPostKey + "\t" + PostKey);
                         if(childPostKey.equals(PostKey))
                         {
-
+                            int num = Integer.parseInt(dataSnapshot.child(donaClave).child("Numero").getValue().toString());
                             donacionRef.child(donaClave).child("Fecha_realizdo").setValue(saveCurrentDate);
                             donacionRef.child(donaClave).child("Status").setValue("Realizado");
+                            num++;
+                            donacionRef.child(donaClave).child("Numero").setValue(String.valueOf(num));
 
                             Toast.makeText(ClickPostActivity.this, "The donation has been registered", Toast.LENGTH_LONG).show();
                         }
@@ -247,7 +250,6 @@ public class ClickPostActivity extends AppCompatActivity {
                     {
                         donarExecuted = true;
                         makeDonacion();
-
                     }
             }
 
@@ -277,6 +279,9 @@ public class ClickPostActivity extends AppCompatActivity {
         donarMap.put("Fecha_solicitud", saveCurrentDate);
         donarMap.put("Fecha_realizdo", "null");
         donarMap.put("Status", "pendiente");
+        donarMap.put("InsitutionID", institution);
+        donarMap.put("Numero", "0");
+
         donacionRef.updateChildren(donarMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task)

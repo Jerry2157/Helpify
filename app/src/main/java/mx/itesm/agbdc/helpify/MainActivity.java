@@ -116,9 +116,6 @@ public class MainActivity extends AppCompatActivity
                         GiveInstitutionRights(InstitutionID);
                     } else {
                         CheckUserExistence();
-                        //Log.i("erased user main", dataSnapshot.getKey());
-                        //dataSnapshot.getRef().setValue(null);
-                        //Toast.makeText(MainActivity.this, "Profile name do not exists...", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -258,10 +255,10 @@ public class MainActivity extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             HashMap a = (HashMap) snapshot.getValue();
-                            for(Object k: a.keySet())
+                            /*for(Object k: a.keySet())
                             {
                                 //Log.i("kMap", k.toString());
-                            }
+                            }*/
                             String latdb;
                             String londb;
                             String fName;

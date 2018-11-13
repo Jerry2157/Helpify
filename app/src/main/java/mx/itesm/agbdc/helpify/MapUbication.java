@@ -77,6 +77,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -92,7 +93,6 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISO_GPS);
             // Contestará con onRequestPermissionsResult...
-
         } else {
             gps.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, (LocationListener) this);
         }

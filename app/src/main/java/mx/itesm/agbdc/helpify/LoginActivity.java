@@ -204,7 +204,6 @@ public class LoginActivity extends AppCompatActivity
                         {
 
                             SendUserToMainActivity();
-
                         }
                         else
                         {
@@ -216,6 +215,7 @@ public class LoginActivity extends AppCompatActivity
                     else
                     {
                         Log.i("rechazado user", current);
+                        snapshot.child(current).getRef().setValue(null);
                     }
                 }
 

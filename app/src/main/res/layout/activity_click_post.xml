@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,87 +8,90 @@
     tools:context=".ClickPostActivity">
 
 
-    <TextView
-        android:id="@+id/nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAllCaps="true"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/click_post_image"
-        android:layout_width="650dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:adjustViewBounds="true"
-        android:maxHeight="220dp"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/select_image" />
-
-    <Button
-        android:id="@+id/donar_post_button"
+    <LinearLayout
+        android:id="@+id/container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="73dp"
-        android:background="@drawable/button"
-        android:clickable="true"
-        android:text="DONAR" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/delete_post_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="14dp"
-        android:background="@drawable/button"
-        android:text="DELETE POST" />
+        <TextView
+            android:id="@+id/nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/claveText"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="134dp"
-        android:layout_marginStart="65dp"
-        android:ems="10"
-        android:hint="Escribe la clave de donacion"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/numeroDonar"
-        android:layout_width="140dp"
-        android:layout_height="41dp"
-        android:layout_above="@+id/claveText"
-        android:layout_centerHorizontal="true"
-        android:text="TextView"
-        android:textSize="18sp" />
-
-    <ScrollView
-        android:id="@+id/ScrollView01"
-        android:layout_width="fill_parent"
-        android:layout_height="96dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/click_post_image"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="13dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="220dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/select_image" />
 
         <TextView
             android:id="@+id/click_post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_centerVertical="true"
             android:text="Post Description"
 
             android:textAlignment="viewStart"
             android:textSize="18sp"
             android:textStyle="bold" />
-    </ScrollView>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/numeroDonar"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:layout_above="@+id/claveText"
+            android:layout_centerHorizontal="true"
+            android:text="TextView"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/claveText"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="13dp"
+            android:layout_marginStart="20dp"
+            android:ems="10"
+            android:hint="Escribe la clave de donacion"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/donar_post_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button"
+            android:clickable="true"
+            android:text="DONAR" />
+
+        <Button
+            android:id="@+id/delete_post_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/button"
+            android:text="DELETE POST" />
+
+    </LinearLayout>
+
+</ScrollView >
