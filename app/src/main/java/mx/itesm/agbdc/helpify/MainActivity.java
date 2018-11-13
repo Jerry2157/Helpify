@@ -265,7 +265,6 @@ public class MainActivity extends AppCompatActivity
                             try {
                                 String ins = a.get("InstitutionID").toString();
                                 if (!ins.equals("null")) {
-                                    Log.i("username", a.get("username").toString());
                                     latdb = (a.get("instLatitud").toString());
                                     londb = (a.get("instLongitud").toString());
                                     fName = (a.get("fullname").toString());

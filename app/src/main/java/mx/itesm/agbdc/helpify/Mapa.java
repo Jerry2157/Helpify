@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -182,6 +183,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         else
         {
             previousMarker = marker;
+            Toast.makeText(this, "Press again the marker to confirm", Toast.LENGTH_LONG).show();
             return false;
         }
     }
