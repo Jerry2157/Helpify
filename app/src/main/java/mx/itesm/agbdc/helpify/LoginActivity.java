@@ -192,7 +192,6 @@ public class LoginActivity extends AppCompatActivity
 
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         if(currentUser != null)
         {
