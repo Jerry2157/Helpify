@@ -29,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -128,8 +129,8 @@ public class PostActivity extends AppCompatActivity
     private void StoringImageToFirebaseStorage()
     {
         Calendar calFordDate = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-        saveCurrentDate = currentDate.format(calFordDate.getTime());
+        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy-MM-dd");
+        saveCurrentDate = currentDate.format(new Date());
 
         Calendar calFordTime = Calendar.getInstance();
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");

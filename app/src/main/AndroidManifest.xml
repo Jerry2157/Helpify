@@ -30,21 +30,30 @@
             android:value="@integer/google_play_services_version" />
 
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".SetupActivity" />
+        <activity android:name=".SetupActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".ClickPostActivity" />
-        <activity android:name=".Mapa" />
+            android:theme="@style/Base.Theme.AppCompat"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PostActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClickPostActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Mapa"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MapUbication"></activity>
     </application>
 

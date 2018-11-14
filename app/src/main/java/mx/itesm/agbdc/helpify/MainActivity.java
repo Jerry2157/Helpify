@@ -29,11 +29,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private String InstitutionID;
 
     String currentUserID;
+    private Query query;
 
 
     @Override
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
-
+        query = PostsRef.orderByChild("date");
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity
                                 Posts.class,
                                 R.layout.all_posts_layout,
                                 PostsViewHolder.class,
-                                PostsRef
+                                query
                         )
                 {
                     @Override

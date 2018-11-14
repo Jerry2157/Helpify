@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.UUID;
@@ -160,8 +161,8 @@ public class ClickPostActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 Calendar calFordDate = Calendar.getInstance();
-                SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-                String saveCurrentDate = currentDate.format(calFordDate.getTime());
+                SimpleDateFormat currentDate = new SimpleDateFormat("yyyy-MM-dd");
+                String saveCurrentDate = currentDate.format(new Date());
                 boolean registroDone = false;
                 if(!registroDone)
                 {
@@ -272,8 +273,8 @@ public class ClickPostActivity extends AppCompatActivity {
         donacionRef = Donacion.getReference().child("Donaciones").child(clave);
         HashMap donarMap = new HashMap();
         Calendar calFordDate = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
-        String saveCurrentDate = currentDate.format(calFordDate.getTime());
+        SimpleDateFormat currentDate = new SimpleDateFormat("yyyy-MM-dd");
+        String saveCurrentDate = currentDate.format(new Date());
         donarMap.put("userID", currentUserID);
         donarMap.put("postKey", PostKey);
         donarMap.put("Fecha_solicitud", saveCurrentDate);
