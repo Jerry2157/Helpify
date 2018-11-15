@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference UsersRef, PostsRef;
     private String InstitutionID;
 
+
     String currentUserID;
     private Query query;
 
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity
     private void GiveInstitutionRights(String InstitutionID) {
         if(InstitutionID.equals("null")){
             AddNewPostButton.setVisibility(View.INVISIBLE);
+
             navigationView.getMenu().findItem(R.id.nav_post).setVisible(false);
         }else{
             AddNewPostButton.setVisibility(View.VISIBLE);
@@ -314,11 +316,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void SendUserToMapaUbicacion()
-    {
-        Intent addNewPostIntent = new Intent(MainActivity.this, MapUbication.class);
-        startActivity(addNewPostIntent);
-    }
+
 
     @Override
     protected void onStart()
@@ -382,7 +380,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -405,6 +402,9 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_profile:
+                Intent addNewProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                addNewProfileIntent.putExtra("User", new String []{currentUserID, InstitutionID});
+                startActivity(addNewProfileIntent);
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -412,9 +412,6 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.nav_friends:
-                Toast.makeText(this, "Friend List", Toast.LENGTH_SHORT).show();
-                break;
 
             case R.id.nav_find_friends:
                 SendUserToMapa();
