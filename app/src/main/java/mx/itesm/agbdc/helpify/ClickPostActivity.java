@@ -277,14 +277,14 @@ public class ClickPostActivity extends AppCompatActivity {
         Calendar calFordDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("yyyy-MM-dd");
         String saveCurrentDate = currentDate.format(new Date());
-        donarMap.put("userID", currentUserID);
-        donarMap.put("postKey", PostKey);
-        donarMap.put("Fecha_solicitud", saveCurrentDate);
+        donarMap.put("userID", currentUserID.toString());
+        donarMap.put("postKey", PostKey.toString());
+        donarMap.put("Fecha_solicitud", saveCurrentDate.toString());
         donarMap.put("Fecha_realizdo", "null");
         donarMap.put("Status", "pendiente");
-        donarMap.put("InsitutionID", uid);
+        donarMap.put("InsitutionID", institution.toString());
         donarMap.put("Numero", "0");
-        donarMap.put("InstitutionName", iName);
+        donarMap.put("InstitutionName", iName.toString());
 
         donacionRef.updateChildren(donarMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
