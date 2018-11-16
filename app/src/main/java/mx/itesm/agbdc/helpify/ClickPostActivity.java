@@ -280,7 +280,7 @@ public class ClickPostActivity extends AppCompatActivity {
         donarMap.put("Fecha_solicitud", saveCurrentDate);
         donarMap.put("Fecha_realizdo", "null");
         donarMap.put("Status", "pendiente");
-        donarMap.put("InsitutionID", institution);
+        donarMap.put("InsitutionID", uid);
         donarMap.put("Numero", "0");
 
         donacionRef.updateChildren(donarMap).addOnCompleteListener(new OnCompleteListener() {
