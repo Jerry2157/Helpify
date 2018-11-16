@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String[] myString = {PostKey, InstitutionID, model.getUid()};
+                                String[] myString = {PostKey, InstitutionID, model.getUid(), model.getFullname()};
 
                                 Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
 

@@ -51,6 +51,7 @@ public class ClickPostActivity extends AppCompatActivity {
     private EditText claveBox;
     private boolean donarExecuted;
     private boolean registroBool;
+    private String iName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class ClickPostActivity extends AppCompatActivity {
         ClickPostRef = FirebaseDatabase.getInstance().getReference().child("Post").child(PostKey);
         DatabaseReference inst = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
         institution = myStrings[1];
+        iName =myStrings[3];
         donarExecuted = false;
         PostImage = (ImageView)findViewById(R.id.click_post_image);
         PostDescription = (TextView)findViewById(R.id.click_post_description);
@@ -282,6 +284,7 @@ public class ClickPostActivity extends AppCompatActivity {
         donarMap.put("Status", "pendiente");
         donarMap.put("InsitutionID", uid);
         donarMap.put("Numero", "0");
+        donarMap.put("InstitutionName", iName);
 
         donacionRef.updateChildren(donarMap).addOnCompleteListener(new OnCompleteListener() {
             @Override
