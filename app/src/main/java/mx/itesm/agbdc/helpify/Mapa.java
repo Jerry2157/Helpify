@@ -43,7 +43,11 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     double lon;
     ArrayList<String> names;
     ArrayList<LatLng> latLngs;
+    ArrayList<String> ins;
     Location myLocation;
+    String[] myStrings;
+    private String currentUserID;
+    private String institutionID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +58,17 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         mapFragment.getMapAsync(this);
         latLngs = new ArrayList<>();
         names = new ArrayList<>();
+        ins = new ArrayList<>();
         Intent intent = getIntent();
-        String[] myStrings = intent.getStringArrayExtra("Coordenadas");
-
-        for(int i = 0; i < (myStrings.length/3); i++)
+        myStrings = intent.getStringArrayExtra("User");
+        currentUserID = myStrings[0];
+        institutionID = myStrings[1];
+        for(int i = 0; i < (myStrings.length/4); i++)
         {
-            double a = Double.valueOf(myStrings[(3 * i)]);
-            double b = Double.valueOf(myStrings[(3 * i) + 1]);
-            String n = myStrings[(3 * i) + 2];
+            double a = Double.valueOf(myStrings[(4 * i + 2)]);
+            double b = Double.valueOf(myStrings[(4 * i) + 3]);
+            String n = myStrings[(4 * i) + 4];
+            ins.add(myStrings[(4 * i) + 5]);
             latLngs.add(new LatLng(a, b));
             names.add(n);
         }
@@ -111,7 +118,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         for (LatLng lt: latLngs)
         {
             Log.i("LATLON: ", lt.toString());
-            mMap.addMarker(new MarkerOptions().position(lt).title(names.get(j)));
+            mMap.addMarker(new MarkerOptions().position(lt).title(names.get(j)).snippet(ins.get(j)));
             j++;
         }
     }
@@ -184,8 +191,11 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(previousMarker))
         {
-            /*Intent show = new Intent(getBaseContext(), ShowInfo.class);
-            startActivity(show);*/
+            Intent addNewProfileIntent = new Intent(Mapa.this, ShowInfo.class);
+            String[] myString = new String[myStrings.length];
+            myStrings[1] = marker.getSnippet();
+            addNewProfileIntent.putExtra("User", myStrings);
+            startActivity(addNewProfileIntent);
             return true;
         }
         else

@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity
+public class ShowInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -51,26 +50,26 @@ public class ProfileActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private ImageView fotoPerfil;
     private RecyclerView donaList;
-    private Query query, queryPost;
-    private String [] results;
+    private Query  queryPost;
+    String [] results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mAuth = FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_show_info);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fotoPerfil = findViewById(R.id.foto);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawable_layout);
+        mAuth = FirebaseAuth.getInstance();
+        fotoPerfil = findViewById(R.id.foto1);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        DonaRef = FirebaseDatabase.getInstance().getReference().child("Donaciones");
+
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -92,31 +91,33 @@ public class ProfileActivity extends AppCompatActivity
         Intent intent = getIntent();
         results = intent.getStringArrayExtra("User");
         coordenadas = new String[results.length - 2];
+        for(int i = 2; i < results.length; i++)
+        {
+            coordenadas[i - 2] = results[i];
+        }
 
         currentUserID = results[0];
         institutionID = results[1];
+
         Log.i("currentuser profile", currentUserID);
         Log.i("institution profile", institutionID);
-
-        query = FirebaseDatabase.getInstance().getReference().child("Donaciones").
-                orderByChild("userID").equalTo(currentUserID);
         queryPost = FirebaseDatabase.getInstance().getReference().child("Posts").
-                orderByChild("uid").equalTo(currentUserID);
-
-        UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
+                orderByChild("uid").equalTo(institutionID);
+        UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        UsersRef.child(institutionID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.hasChild("fullname")) {
                         String fullname = dataSnapshot.child("fullname").getValue().toString();
                         NavProfileUserName.setText(fullname);
-                        TextView nombre = findViewById(R.id.Name);
+                        TextView nombre = findViewById(R.id.Name1);
                         nombre.setText(fullname);
                     }
                     if (dataSnapshot.hasChild("profileimage")) {
                         String image = dataSnapshot.child("profileimage").getValue().toString();
-                        Picasso.with(ProfileActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
-                        Picasso.with(ProfileActivity.this).load(image).placeholder(R.drawable.profile).into(fotoPerfil);
+                        Picasso.with(ShowInfo.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
+                        Picasso.with(ShowInfo.this).load(image).placeholder(R.drawable.profile).into(fotoPerfil);
 
                     }
                 }
@@ -128,9 +129,18 @@ public class ProfileActivity extends AppCompatActivity
             }
         });
 
-        GiveInstitutionRights();
+        DisplayAllUsersPosts();
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     private void DisplayAllUsersPosts()
     {
@@ -163,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity
                                 myString[2] = model.getUid();
                                 myString[3] = model.getFullname();
 
-                                Intent clickPostIntent = new Intent(ProfileActivity.this,ClickPostActivity.class);
+                                Intent clickPostIntent = new Intent(ShowInfo.this,ClickPostActivity.class);
 
                                 clickPostIntent.putExtra("PostKey", myString);
 
@@ -208,117 +218,9 @@ public class ProfileActivity extends AppCompatActivity
     }
 
 
-    private void DisplayAllDonaciones()
-    {
-        FirebaseRecyclerAdapter<Donations, DonaViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Donations, DonaViewHolder>(
-                        Donations.class,
-                        R.layout.donaciones_list,
-                        DonaViewHolder.class,
-                        query
-                ) {
-                    @Override
-                    protected void populateViewHolder(DonaViewHolder viewHolder, final Donations model, int position) {
-                        final String DonaKey = getRef(position).getKey();
-                        viewHolder.setDate(model.getFecha_realizdo());
-                        viewHolder.setFullname(model.getInstitutionName());
-                        viewHolder.setNumeber("Numero donaciones: " + model.getNumero());
-                        viewHolder.setID(DonaKey);
-
-                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                String[] myString = new String[]{model.getPostKey(), "null",
-                                        model.getUserID(), model.getInstitutionName()};
-                                Intent clickPostIntent = new Intent(ProfileActivity.this,ClickPostActivity.class);
-
-                                clickPostIntent.putExtra("PostKey", myString);
-
-                                startActivity(clickPostIntent);
-                            }
-                        });
-                    }
-                };
-
-        donaList.setAdapter(firebaseRecyclerAdapter);
-    }
-
-    public static class DonaViewHolder extends RecyclerView.ViewHolder
-    {
-        View mView;
-
-        public DonaViewHolder(View itemView)
-        {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setFullname(String fullname)
-        {
-            TextView username = (TextView) mView.findViewById(R.id.post_post_name);
-            username.setText(fullname);
-        }
-
-
-        public void setDate(String time)
-        {
-            TextView PostTime = (TextView) mView.findViewById(R.id.dona_date);
-            if(time.equals("null"))
-            {
-                PostTime.setText("No realizada");
-            }
-            else
-            {
-                PostTime.setText("Fecha de ultima donacion \t\t"  + time);
-            }
-        }
-
-        public void setNumeber(String date)
-        {
-            TextView PostDate = (TextView) mView.findViewById(R.id.donaNum);
-            PostDate.setText(date);
-
-
-        }
-        public void setID(String id)
-        {
-            TextView PostDate = (TextView) mView.findViewById(R.id.idDona);
-            PostDate.setText("Clave Donacion: " + id);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    private void GiveInstitutionRights() {
-        if(institutionID.equals("null")){
-            navigationView.getMenu().findItem(R.id.nav_post).setVisible(false);
-            DisplayAllDonaciones();
-        }else{
-            navigationView.getMenu().findItem(R.id.nav_post).setVisible(true);
-            DisplayAllUsersPosts();
-            TextView title = findViewById(R.id.DonaTitle);
-            title.setText("Posts de esta institución:");
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-
-
     private void SendUserToMainActivity()
     {
-        Intent mainIntent = new Intent(ProfileActivity.this, MainActivity.class);
+        Intent mainIntent = new Intent(ShowInfo.this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
@@ -326,21 +228,21 @@ public class ProfileActivity extends AppCompatActivity
 
     private void SendUserToMapa()
     {
-        Intent sendUserToMapa = new Intent(ProfileActivity.this, Mapa.class);
-        sendUserToMapa.putExtra("Users", results);
+        Intent sendUserToMapa = new Intent(ShowInfo.this, Mapa.class);
+        sendUserToMapa.putExtra("Coordenadas", coordenadas);
         startActivity(sendUserToMapa);
         finish();
     }
 
     private void SendUserToPostActivity()
     {
-        Intent addNewPostIntent = new Intent(ProfileActivity.this, PostActivity.class);
+        Intent addNewPostIntent = new Intent(ShowInfo.this, PostActivity.class);
         startActivity(addNewPostIntent);
     }
 
     private void SendUserToLoginActivity()
     {
-        Intent loginIntent = new Intent(ProfileActivity.this, LoginActivity.class);
+        Intent loginIntent = new Intent(ShowInfo.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
@@ -349,7 +251,6 @@ public class ProfileActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id == R.id.nav_post)
         {
@@ -360,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity
         }
         if (id == R.id.nav_find_friends)
         {
-            Intent mapIntent = new Intent(ProfileActivity.this, Mapa.class);
+            Intent mapIntent = new Intent(ShowInfo.this, Mapa.class);
             mapIntent.putExtra("User", results);
             startActivity(mapIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
@@ -370,8 +271,15 @@ public class ProfileActivity extends AppCompatActivity
             mAuth.signOut();
             SendUserToLoginActivity();
         }
+        if (id == R.id.nav_profile)
+        {
+            Intent addNewProfileIntent = new Intent(ShowInfo.this, ProfileActivity.class);
+            addNewProfileIntent.putExtra("User", results);
+            startActivity(addNewProfileIntent);
+            Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawable_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

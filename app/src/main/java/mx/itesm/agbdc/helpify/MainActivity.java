@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity
                                         coordenadas.add(latdb);
                                         coordenadas.add(londb);
                                         coordenadas.add(fName);
+                                        coordenadas.add(snapshot.getKey());
                                     }
 
                                 }
@@ -421,7 +422,22 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_find_friends:
-                SendUserToMapa();
+                Intent mapIntent = new Intent(MainActivity.this, Mapa.class);
+                String[] myString1 = new String[coordenadas.size() + 2];
+                myString1[0] = currentUserID;
+                myString1[1] = InstitutionID;
+                Log.i("currenuser main", myString1[0]);
+                Log.i("currenuser ins", myString1[1]);
+
+                int kk = 2;
+                for(String cc: coordenadas)
+                {
+                    myString1[kk] = cc;
+                    kk++;
+                }
+                mapIntent.putExtra("User", myString1);
+                startActivity(mapIntent);
+                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_Logout:
