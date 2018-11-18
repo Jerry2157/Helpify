@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference UsersRef, PostsRef;
     private String InstitutionID;
 
-
     String currentUserID;
     private Query query;
 
@@ -123,7 +122,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -189,7 +187,11 @@ public class MainActivity extends AppCompatActivity
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String[] myString = {PostKey, InstitutionID, model.getUid(), model.getFullname()};
+                                String[] myString = new String[4];
+                                myString[0] = PostKey;
+                                myString[1] = InstitutionID;
+                                myString[2] = model.getUid();
+                                myString[3] = model.getFullname();
 
                                 Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
 
@@ -313,7 +315,6 @@ public class MainActivity extends AppCompatActivity
         Intent sendUserToMapa = new Intent(MainActivity.this, Mapa.class);
         sendUserToMapa.putExtra("Coordenadas", latlng);
         startActivity(sendUserToMapa);
-
     }
 
 
@@ -338,7 +339,6 @@ public class MainActivity extends AppCompatActivity
     {
         try{
             final String current_user_id = mAuth.getCurrentUser().getUid();
-
 
             UsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -402,7 +402,16 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_profile:
                 Intent addNewProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                addNewProfileIntent.putExtra("User", new String []{currentUserID, InstitutionID});
+                String[] myString = new String[coordenadas.size() + 2];
+                myString[0] = currentUserID;
+                myString[1] = InstitutionID;
+                int k = 2;
+                for(String cc: coordenadas)
+                {
+                    myString[k] = cc;
+                    k++;
+                }
+                addNewProfileIntent.putExtra("User", myString);
                 startActivity(addNewProfileIntent);
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
                 break;
@@ -411,11 +420,9 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
                 break;
 
-
             case R.id.nav_find_friends:
                 SendUserToMapa();
                 break;
-
 
             case R.id.nav_Logout:
                 mAuth.signOut();

@@ -244,7 +244,7 @@ public class ClickPostActivity extends AppCompatActivity {
                     {
                         Toast.makeText(ClickPostActivity.this, "You have already donated", Toast.LENGTH_LONG).show();
                         DonarView.setVisibility(View.VISIBLE);
-                        DonarView.setText(childSnapshot.getKey());
+                        DonarView.setText("Clave donacion: " + childSnapshot.getKey());
                         existe = true;
                         break;
                     }

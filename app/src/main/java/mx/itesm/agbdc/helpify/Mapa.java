@@ -168,6 +168,13 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
+
+    @Override
     public void onProviderDisabled(String s) {
 
     }
