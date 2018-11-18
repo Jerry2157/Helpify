@@ -65,10 +65,10 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         institutionID = myStrings[1];
         for(int i = 0; i < (myStrings.length/4); i++)
         {
-            double a = Double.valueOf(myStrings[(4 * i + 2)]);
-            double b = Double.valueOf(myStrings[(4 * i) + 3]);
-            String n = myStrings[(4 * i) + 4];
-            ins.add(myStrings[(4 * i) + 5]);
+            double a = Double.valueOf(myStrings[(4 * i + 3)]);
+            double b = Double.valueOf(myStrings[(4 * i) + 4]);
+            String n = myStrings[(4 * i) + 5];
+            ins.add(myStrings[(4 * i) + 6]);
             latLngs.add(new LatLng(a, b));
             names.add(n);
         }
@@ -193,7 +193,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         {
             Intent addNewProfileIntent = new Intent(Mapa.this, ShowInfo.class);
             String[] myString = new String[myStrings.length];
-            myStrings[1] = marker.getSnippet();
+
+            myStrings[2] = marker.getSnippet();
             addNewProfileIntent.putExtra("User", myStrings);
             startActivity(addNewProfileIntent);
             return true;

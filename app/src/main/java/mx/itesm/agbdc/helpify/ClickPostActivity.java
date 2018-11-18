@@ -98,7 +98,6 @@ public class ClickPostActivity extends AppCompatActivity {
                         DonarPostButton.setVisibility(View.VISIBLE);
                     }
 
-
                 }
             }
 

@@ -403,10 +403,11 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_profile:
                 Intent addNewProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                String[] myString = new String[coordenadas.size() + 2];
+                String[] myString = new String[coordenadas.size() + 3];
                 myString[0] = currentUserID;
                 myString[1] = InstitutionID;
-                int k = 2;
+                myString[2] = "";
+                int k = 3;
                 for(String cc: coordenadas)
                 {
                     myString[k] = cc;
@@ -423,13 +424,14 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_find_friends:
                 Intent mapIntent = new Intent(MainActivity.this, Mapa.class);
-                String[] myString1 = new String[coordenadas.size() + 2];
+                String[] myString1 = new String[coordenadas.size() + 3];
                 myString1[0] = currentUserID;
                 myString1[1] = InstitutionID;
+                myString1[2] = "";
                 Log.i("currenuser main", myString1[0]);
                 Log.i("currenuser ins", myString1[1]);
 
-                int kk = 2;
+                int kk = 3;
                 for(String cc: coordenadas)
                 {
                     myString1[kk] = cc;

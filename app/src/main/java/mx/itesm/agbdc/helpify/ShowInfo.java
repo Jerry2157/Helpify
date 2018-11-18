@@ -43,7 +43,7 @@ public class ShowInfo extends AppCompatActivity
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private DatabaseReference UsersRef, DonaRef;
-    private String currentUserID;
+    private String ins;
     private String institutionID;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private String [] coordenadas;
@@ -96,28 +96,49 @@ public class ShowInfo extends AppCompatActivity
             coordenadas[i - 2] = results[i];
         }
 
-        currentUserID = results[0];
+        ins = results[2];
         institutionID = results[1];
 
-        Log.i("currentuser profile", currentUserID);
+        Log.i("currentuser profile", ins);
         Log.i("institution profile", institutionID);
         queryPost = FirebaseDatabase.getInstance().getReference().child("Posts").
-                orderByChild("uid").equalTo(institutionID);
+                orderByChild("uid").equalTo(ins);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        UsersRef.child(institutionID).addValueEventListener(new ValueEventListener() {
+        UsersRef.child(ins).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.hasChild("fullname")) {
+                        String fullname = dataSnapshot.child("fullname").getValue().toString();
+                        TextView nombre = findViewById(R.id.Name1);
+                        nombre.setText(fullname);
+                    }
+                    if (dataSnapshot.hasChild("profileimage")) {
+                        String image = dataSnapshot.child("profileimage").getValue().toString();
+                        Picasso.with(ShowInfo.this).load(image).placeholder(R.drawable.profile).into(fotoPerfil);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        UsersRef.child(results[0]).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.hasChild("fullname")) {
                         String fullname = dataSnapshot.child("fullname").getValue().toString();
                         NavProfileUserName.setText(fullname);
-                        TextView nombre = findViewById(R.id.Name1);
-                        nombre.setText(fullname);
                     }
                     if (dataSnapshot.hasChild("profileimage")) {
                         String image = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(ShowInfo.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
-                        Picasso.with(ShowInfo.this).load(image).placeholder(R.drawable.profile).into(fotoPerfil);
 
                     }
                 }
@@ -167,9 +188,10 @@ public class ShowInfo extends AppCompatActivity
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
                                 String[] myString = new String[4];
                                 myString[0] = PostKey;
-                                myString[1] = model.getUid();
+                                myString[1] = institutionID;
                                 myString[2] = model.getUid();
                                 myString[3] = model.getFullname();
 
@@ -261,6 +283,8 @@ public class ShowInfo extends AppCompatActivity
         }
         if (id == R.id.nav_find_friends)
         {
+            results[2] = "";
+
             Intent mapIntent = new Intent(ShowInfo.this, Mapa.class);
             mapIntent.putExtra("User", results);
             startActivity(mapIntent);
@@ -273,7 +297,10 @@ public class ShowInfo extends AppCompatActivity
         }
         if (id == R.id.nav_profile)
         {
+            results[2] = "";
             Intent addNewProfileIntent = new Intent(ShowInfo.this, ProfileActivity.class);
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
             addNewProfileIntent.putExtra("User", results);
             startActivity(addNewProfileIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
