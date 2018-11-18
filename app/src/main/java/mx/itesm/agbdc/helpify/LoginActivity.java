@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
                     {
-                        Toast.makeText(LoginActivity.this, "Connection to Google Sign in failed...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Fallo de conexión con Google Sign in...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -132,8 +132,8 @@ public class LoginActivity extends AppCompatActivity
 
         if (requestCode == RC_SIGN_IN)
         {
-            loadingBar.setTitle("google Sign In");
-            loadingBar.setMessage("Please wait, while we are allowing you to login using your Google Account...");
+            loadingBar.setTitle("Google Sign In");
+            loadingBar.setMessage("Porfavor espera, iniciando sesión con Google...");
             loadingBar.setCanceledOnTouchOutside(true);
             loadingBar.show();
 
@@ -143,11 +143,11 @@ public class LoginActivity extends AppCompatActivity
             {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                Toast.makeText(this, "Please wait, while we are getting your auth result...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Porfavor espera, ya casí esta listo...", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(this, "Can't get Auth result.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Vuelva a intentarlo más tarde.", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             String message = task.getException().toString();
                             SendUserToLoginActivity();
-                            Toast.makeText(LoginActivity.this, "Not Authenticated : " + message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "No Autenticado : " + message, Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
                         }
                     }
@@ -237,11 +237,11 @@ public class LoginActivity extends AppCompatActivity
 
         if(TextUtils.isEmpty(email))
         {
-            Toast.makeText(this, "Please write your email...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor escriba su correo...", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(password))
         {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor escriba su contraseña...", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -261,13 +261,13 @@ public class LoginActivity extends AppCompatActivity
                                 Log.i("allowing user to ", "log in");
                                 SendUserToMainActivity();
 
-                                Toast.makeText(LoginActivity.this, "you are Logged In successfully.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso.", Toast.LENGTH_SHORT).show();
                                 //loadingBar.dismiss();
                             }
                             else
                             {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this, "Error occured: " + message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Vuelva a intentarlo más tarde: " + message, Toast.LENGTH_SHORT).show();
                                 //loadingBar.dismiss();
                             }
                         }

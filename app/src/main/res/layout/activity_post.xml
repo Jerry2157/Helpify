@@ -30,7 +30,7 @@
         android:layout_marginBottom="25dp"
         android:background="@drawable/input"
         android:ems="10"
-        android:hint="write something about your post"
+        android:hint="Escribe sobre tú Post"
         android:inputType="textMultiLine"
         android:padding="15dp" />
 
@@ -43,6 +43,6 @@
         android:layout_marginBottom="47dp"
         android:background="@drawable/button"
         android:padding="10dp"
-        android:text="Update Post" />
+        android:text="Crear Post" />
 
 </RelativeLayout>

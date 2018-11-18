@@ -144,7 +144,7 @@ public class SetupActivity extends AppCompatActivity
                     }
                     else
                     {
-                        Toast.makeText(SetupActivity.this, "Please select profile image first.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SetupActivity.this, "Porfavor seleccione su imagen de perfil primero.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -197,8 +197,8 @@ public class SetupActivity extends AppCompatActivity
 
             if(resultCode == RESULT_OK)
             {
-                loadingBar.setTitle("Profile Image");
-                loadingBar.setMessage("Please wait, while we updating your profile image...");
+                loadingBar.setTitle("Imagen de Perfil");
+                loadingBar.setMessage("Porfavor espere, casí listo...");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(true);
 
@@ -213,7 +213,7 @@ public class SetupActivity extends AppCompatActivity
                         if(task.isSuccessful())
                         {
 
-                            Toast.makeText(SetupActivity.this, "Profile Image stored successfully to Firebase storage...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetupActivity.this, "Imagen de perfil capturada exitosamente...", Toast.LENGTH_SHORT).show();
 
                             final String downloadUrl = task.getResult().getDownloadUrl().toString();
 
@@ -227,7 +227,7 @@ public class SetupActivity extends AppCompatActivity
                                                 Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
                                                 startActivity(selfIntent);
 
-                                                Toast.makeText(SetupActivity.this, "Profile Image stored to Firebase Database Successfully...", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SetupActivity.this, "Imagen de perfil capturada exitosamente...", Toast.LENGTH_SHORT).show();
                                                 perfil = true;
                                                 Log.i("perfilstatus", Boolean.toString(perfil));
                                                 loadingBar.dismiss();
@@ -246,7 +246,7 @@ public class SetupActivity extends AppCompatActivity
             }
             else
             {
-                Toast.makeText(this, "Error Occured: Image can not be cropped. Try Again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "La imagen no pudo ser recortada, vuelva a intentarlo.", Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }
@@ -264,35 +264,35 @@ public class SetupActivity extends AppCompatActivity
 
         if(!perfil)
         {
-            Toast.makeText(this, "Please select an image for your profile...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor seleccione una imagen para el perfil...", Toast.LENGTH_SHORT).show();
         }
         else if((LongitudToFirebase.equals("null") || LongitudToFirebase.equals("null")) && SwitchInstitutionOn)
         {
-            Toast.makeText(this, "Please select your ubication...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor seleccione su ubicación...", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(username))
         {
-            Toast.makeText(this, "Please write your username...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor escriba su Nombre de Usuario...", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(fullname))
         {
-            Toast.makeText(this, "Please write your full name...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor escriba su Nombre Completo...", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(country))
         {
-            Toast.makeText(this, "Please write your country...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Porfavor escriba su País...", Toast.LENGTH_SHORT).show();
         }
         else if(SwitchInstitutionOn && TextUtils.isEmpty(institutionId)){
 
-            Toast.makeText(this, "If you are an Institution please write your ID...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Si eres institución escribe tu ID...", Toast.LENGTH_SHORT).show();
         }
         else
         {
             if(institutionId.equals("null")){
-                Toast.makeText(this, "InstitutionID cannot be null...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "InstitutionID no puede estar vacia...", Toast.LENGTH_SHORT).show();
             }else{
-                loadingBar.setTitle("Saving Information");
-                loadingBar.setMessage("Please wait, while we are creating your new Account...");
+                loadingBar.setTitle("Guardando información");
+                loadingBar.setMessage("Porfavor espere, estamos creando su cuenta...");
                 loadingBar.show();
                 loadingBar.setCanceledOnTouchOutside(true);
 
@@ -319,7 +319,7 @@ public class SetupActivity extends AppCompatActivity
                         if(task.isSuccessful())
                         {
                             SendUserToMainActivity();
-                            Toast.makeText(SetupActivity.this, "your Account is created Successfully.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SetupActivity.this, "Creación de cuenta exitosa.", Toast.LENGTH_LONG).show();
                             loadingBar.dismiss();
                         }
                         else

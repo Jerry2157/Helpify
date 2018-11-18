@@ -60,11 +60,10 @@
                         android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="has been updated a post"
+                        android:text="Ha publicado."
                         android:textColor="@android:color/darker_gray"
                         android:textSize="13sp"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
                     <TextView
                         android:id="@+id/post_date"
                         android:layout_width="wrap_content"

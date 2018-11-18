@@ -31,7 +31,7 @@
             android:background="@drawable/input"
             android:drawableLeft="@drawable/email"
             android:ems="10"
-            android:hint="Email"
+            android:hint="Correo"
             android:inputType="textEmailAddress"
             android:padding="10dp" />
 
@@ -49,7 +49,7 @@
             android:background="@drawable/input"
             android:drawableLeft="@drawable/password"
             android:ems="10"
-            android:hint="Password"
+            android:hint="Contraseña"
             android:inputType="textPassword"
             android:padding="10dp" />
 
@@ -64,7 +64,7 @@
             android:drawableLeft="@drawable/password"
             android:ems="10"
 
-            android:hint="Password"
+            android:hint="Contraseña"
             android:inputType="textPassword"
             android:padding="10dp" />
 
@@ -76,7 +76,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="45dp"
             android:background="@drawable/button"
-            android:text="Create Account"
+            android:text="Crear Cuenta"
 
             />
     </LinearLayout>
