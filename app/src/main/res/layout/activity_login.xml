@@ -21,19 +21,19 @@
         android:layout_marginTop="10dp"
         app:srcCompat="@drawable/logo" />
 
-    <EditText
-        android:id="@+id/login_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="39dp"
-        android:background="@drawable/input"
-        android:drawableLeft="@drawable/email"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="10dp" />
+        <EditText
+            android:id="@+id/login_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="39dp"
+            android:background="@drawable/input"
+            android:drawableLeft="@drawable/email"
+            android:ems="10"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/login_password"
@@ -47,45 +47,45 @@
 
             android:drawableLeft="@drawable/password"
             android:ems="10"
-            android:hint="Password"
+            android:hint="Contraseña"
             android:inputType="textPassword"
             android:padding="10dp" />
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="39dp"
-        android:background="@drawable/button"
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="39dp"
+            android:background="@drawable/button"
 
-        android:text="Login" />
+            android:text="Iniciar Sesión" />
 
         <TextView
             android:id="@+id/register_account_link"
-            android:layout_width="wrap_content"
+            android:layout_width="273dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="31dp"
             android:layout_marginLeft="60dp"
-            android:text="Dont have an Account. Need New Account"
+            android:text="CREAR CUENTA"
             android:textAlignment="center"
-            android:textColor="@android:color/holo_blue_bright"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="37dp"
-        android:layout_marginLeft="160dp"
-        android:text="or Login with"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_bright" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="37dp"
+            android:layout_marginLeft="160dp"
+            android:text="Inicia Sesión con"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
 
 
     <LinearLayout

@@ -33,11 +33,10 @@
             android:background="@drawable/input"
             android:drawableLeft="@drawable/username"
             android:ems="10"
-            android:hint="username"
+            android:hint="usuario"
             android:inputType="textMultiLine"
-            android:padding="10dp"
 
-            />
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/setup_full_name"
@@ -49,7 +48,7 @@
             android:background="@drawable/input"
             android:drawableLeft="@drawable/name"
             android:ems="10"
-            android:hint="Full Name"
+            android:hint="Nombre Completo"
             android:inputType="textMultiLine"
             android:padding="10dp" />
 
@@ -62,7 +61,7 @@
             android:background="@drawable/input"
             android:drawableLeft="@drawable/country"
             android:ems="10"
-            android:hint="Country"
+            android:hint="País"
             android:inputType="textMultiLine"
             android:padding="10dp" />
 
@@ -72,12 +71,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:layout_marginLeft="150dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/button"
 
             android:padding="12dp"
-            android:text="Save"
+            android:text="Guardar"
             android:visibility="visible" />
 
         <Switch
@@ -85,12 +84,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="140dp"
-            android:layout_centerHorizontal="true"
             android:layout_alignTop="@+id/setup_institutionID"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/input"
-            android:text=" Institution" />
+            android:text="Institución" />
 
         <Button
             android:id="@+id/setup_mapa"
@@ -98,11 +97,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/setup_institutionID"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="150dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/input"
             android:padding="12dp"
-            android:text="Mapa"
+            android:text="Dirección"
             android:visibility="invisible" />
 
         <EditText
@@ -111,13 +110,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/input"
             android:drawableLeft="@drawable/username"
             android:ems="10"
-            android:hint="institutionID"
+            android:hint="instituciónID"
             android:inputType="textMultiLine"
             android:padding="10dp"
             android:visibility="invisible" />

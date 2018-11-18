@@ -83,7 +83,8 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("El GPS está apagado, ¿Quieres prenderlo?")
                 .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new
                                 Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -190,7 +191,7 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback, Locati
         else
         {
             previousMarker = marker;
-            Toast.makeText(this, "Press again the marker to confirm", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Toca el marcador de nuevo para confirmar.", Toast.LENGTH_LONG).show();
             return false;
         }
     }

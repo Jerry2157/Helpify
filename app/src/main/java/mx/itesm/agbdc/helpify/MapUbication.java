@@ -68,7 +68,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("El GPS está apagado, ¿Quieres prenderlo?")
                 .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
                         startActivity(new
                                 Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)); // Abre settings
@@ -202,7 +202,7 @@ public class MapUbication extends FragmentActivity implements OnMapReadyCallback
             lon = -99.228167;
 
         }
-        Toast.makeText(this, "Press twice in the place you want to set as your direction", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Toca dos veces para establecer tu dirección", Toast.LENGTH_LONG).show();
         LatLng tec = new LatLng(lat, lon);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tec, 18));
     }

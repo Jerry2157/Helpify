@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle("Inicio");
 
 
         AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
@@ -413,11 +413,11 @@ public class MainActivity extends AppCompatActivity
                 }
                 addNewProfileIntent.putExtra("User", myString);
                 startActivity(addNewProfileIntent);
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_home:
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_find_friends:

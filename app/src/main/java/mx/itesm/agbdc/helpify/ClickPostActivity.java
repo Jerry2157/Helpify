@@ -180,16 +180,16 @@ public class ClickPostActivity extends AppCompatActivity {
                             num++;
                             donacionRef.child(donaClave).child("Numero").setValue(String.valueOf(num));
 
-                            Toast.makeText(ClickPostActivity.this, "The donation has been registered", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ClickPostActivity.this, "Donación exitosa", Toast.LENGTH_LONG).show();
                         }
                         else
                         {
-                            Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ClickPostActivity.this, "Donación no encontrada", Toast.LENGTH_LONG).show();
                         }
                     }
                     else
                     {
-                        Toast.makeText(ClickPostActivity.this, "Donation not found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ClickPostActivity.this, "Donación no encontrada", Toast.LENGTH_LONG).show();
                         Log.i("rechazado postkey",  PostKey);
                     }
 
@@ -242,7 +242,7 @@ public class ClickPostActivity extends AppCompatActivity {
                     Log.i("donacion:", childSnapshot.getValue().toString());
                     if(childSnapshot.child("userID").getValue().toString().equals(currentUserID) && childSnapshot.child("postKey").getValue().toString().equals(PostKey))
                     {
-                        Toast.makeText(ClickPostActivity.this, "You have already donated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ClickPostActivity.this, "Ya has donado.", Toast.LENGTH_LONG).show();
                         DonarView.setVisibility(View.VISIBLE);
                         DonarView.setText("Clave donacion: " + childSnapshot.getKey());
                         existe = true;
@@ -267,8 +267,8 @@ public class ClickPostActivity extends AppCompatActivity {
 
     private void makeDonacion()
     {
-        loadingBar.setTitle("DOnation");
-        loadingBar.setMessage("Please wait, while we are registering your donation..");
+        loadingBar.setTitle("Donando");
+        loadingBar.setMessage("Porfavor espera, estamos registrando tu donación..");
         loadingBar.show();
         loadingBar.setCanceledOnTouchOutside(true);
         clave = (new randomStringGenerator()).generateString();
@@ -295,7 +295,7 @@ public class ClickPostActivity extends AppCompatActivity {
                     //SendUserToMainActivity();
                     DonarView.setVisibility(View.VISIBLE);
                     DonarView.setText(clave);
-                    Toast.makeText(ClickPostActivity.this, "Your donation code is: " + clave, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ClickPostActivity.this, "Tu código de donación es: " + clave, Toast.LENGTH_LONG).show();
                     loadingBar.dismiss();
                 }
                 else
@@ -351,7 +351,7 @@ public class ClickPostActivity extends AppCompatActivity {
     private void DeleteCurrentPost() {
         ClickPostRef.removeValue();
         SendUserToMainActivity();
-        Toast.makeText(this, "post has been eliminated...",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "post has been eliminated...",Toast.LENGTH_SHORT).show();
 
     }
 

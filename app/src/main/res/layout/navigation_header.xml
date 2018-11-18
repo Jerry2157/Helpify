@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="40dp"
         android:src="@drawable/profile"
-        app:civ_border_color="@color/colorPrimaryDark"
+        app:civ_border_color="@color/DarkGray"
         app:civ_border_width="2dp"></de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
