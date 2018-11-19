@@ -149,8 +149,16 @@ public class ShowInfo extends AppCompatActivity
 
             }
         });
-
+        GiveInstitutionRights();
         DisplayAllUsersPosts();
+    }
+
+    private void GiveInstitutionRights() {
+        if(institutionID.equals("null")){
+            navigationView.getMenu().findItem(R.id.nav_post).setVisible(false);
+        }else{
+            navigationView.getMenu().findItem(R.id.nav_post).setVisible(true);
+        }
     }
 
     @Override
