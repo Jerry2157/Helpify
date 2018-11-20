@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
+        googleSignInButton.setVisibility(View.INVISIBLE);
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)

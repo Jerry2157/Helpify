@@ -91,6 +91,13 @@ public class SetupActivity extends AppCompatActivity
 
         InstitutionID = (EditText)findViewById(R.id.setup_institutionID);
         SwitchButton = (Switch)findViewById(R.id.switch_Institution);
+
+        UserName.setVisibility(View.INVISIBLE);
+        FullName.setVisibility(View.INVISIBLE);
+        CountryName.setVisibility(View.INVISIBLE);
+        CountryName.setVisibility(View.INVISIBLE);
+        SwitchButton.setVisibility(View.INVISIBLE);
+
         SwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -139,6 +146,11 @@ public class SetupActivity extends AppCompatActivity
                     if (dataSnapshot.hasChild("profileimage"))
                     {
                         perfil = true;
+                        UserName.setVisibility(View.VISIBLE);
+                        FullName.setVisibility(View.VISIBLE);
+                        CountryName.setVisibility(View.VISIBLE);
+                        CountryName.setVisibility(View.VISIBLE);
+                        SwitchButton.setVisibility(View.VISIBLE);
                         String image = dataSnapshot.child("profileimage").getValue().toString();
                         Picasso.with(SetupActivity.this).load(image).placeholder(R.drawable.profile).into(ProfileImage);
                     }
@@ -229,6 +241,11 @@ public class SetupActivity extends AppCompatActivity
 
                                                 Toast.makeText(SetupActivity.this, "Imagen de perfil capturada exitosamente...", Toast.LENGTH_SHORT).show();
                                                 perfil = true;
+                                                UserName.setVisibility(View.VISIBLE);
+                                                FullName.setVisibility(View.VISIBLE);
+                                                CountryName.setVisibility(View.VISIBLE);
+                                                CountryName.setVisibility(View.VISIBLE);
+                                                SwitchButton.setVisibility(View.VISIBLE);
                                                 Log.i("perfilstatus", Boolean.toString(perfil));
                                                 loadingBar.dismiss();
                                             }

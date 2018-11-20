@@ -94,7 +94,7 @@ public class ClickPostActivity extends AppCompatActivity {
                     Picasso.with(ClickPostActivity.this).load(image).into(PostImage);
 
                     if(currentUserID.equals(databaseUserID)){
-                        DeletePostButton.setVisibility(View.VISIBLE);
+                        //DeletePostButton.setVisibility(View.VISIBLE);
                         DonarPostButton.setVisibility(View.VISIBLE);
                     }
 
@@ -115,7 +115,7 @@ public class ClickPostActivity extends AppCompatActivity {
         Log.i("institution", institution);
         if(!institution.equals("null") && uid.equals(currentUserID))
         {
-            DeletePostButton.setVisibility(View.VISIBLE);
+            //DeletePostButton.setVisibility(View.VISIBLE);
             DonarPostButton.setVisibility(View.VISIBLE);
             DonarPostButton.setText("Registrar");
             claveBox.setVisibility(View.VISIBLE);
@@ -293,7 +293,7 @@ public class ClickPostActivity extends AppCompatActivity {
                 {
                     //SendUserToMainActivity();
                     DonarView.setVisibility(View.VISIBLE);
-                    DonarView.setText(clave);
+                    DonarView.setText("Clave de Donación:\t" + clave);
                     Toast.makeText(ClickPostActivity.this, "Tu código de donación es: " + clave, Toast.LENGTH_LONG).show();
                     loadingBar.dismiss();
                 }

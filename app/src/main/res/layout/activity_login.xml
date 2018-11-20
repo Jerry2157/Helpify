@@ -19,6 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="135dp"
         app:srcCompat="@drawable/logo" />
 
         <EditText
@@ -75,20 +76,8 @@
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="108dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="37dp"
-            android:layout_marginLeft="160dp"
-            android:text="Inicia Sesión con"
-            android:textAlignment="center"
-            android:textColor="@android:color/white" />
 
-
-    <LinearLayout
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
