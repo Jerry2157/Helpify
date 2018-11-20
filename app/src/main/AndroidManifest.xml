@@ -66,6 +66,10 @@
         <activity
             android:name=".ShowInfo"
             android:label="@string/title_activity_show_info"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".NosotrosActivity"
+            android:label="@string/title_activity_nosotros"
             android:theme="@style/AppTheme"></activity>
     </application>
 

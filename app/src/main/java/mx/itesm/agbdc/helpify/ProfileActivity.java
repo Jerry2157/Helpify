@@ -365,6 +365,13 @@ public class ProfileActivity extends AppCompatActivity
             startActivity(mapIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
         }
+        if (id == R.id.nav_nosotros)
+        {
+            Intent mapIntent = new Intent(ProfileActivity.this, NosotrosActivity.class);
+            mapIntent.putExtra("User", results);
+            startActivity(mapIntent);
+            Toast.makeText(this, "Nosotros", Toast.LENGTH_SHORT).show();
+        }
         if(id == R.id.nav_Logout)
         {
             mAuth.signOut();

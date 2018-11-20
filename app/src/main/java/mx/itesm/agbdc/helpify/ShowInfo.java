@@ -307,11 +307,17 @@ public class ShowInfo extends AppCompatActivity
         {
             results[2] = "";
             Intent addNewProfileIntent = new Intent(ShowInfo.this, ProfileActivity.class);
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
             addNewProfileIntent.putExtra("User", results);
             startActivity(addNewProfileIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.nav_nosotros)
+        {
+            Intent mapIntent = new Intent(ShowInfo.this, NosotrosActivity.class);
+            mapIntent.putExtra("User", results);
+            startActivity(mapIntent);
+            Toast.makeText(this, "Nosotros", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

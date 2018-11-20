@@ -439,7 +439,27 @@ public class MainActivity extends AppCompatActivity
                 }
                 mapIntent.putExtra("User", myString1);
                 startActivity(mapIntent);
-                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Ubicaciones", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.nav_nosotros:
+                Intent nosotrosIntent = new Intent(MainActivity.this, NosotrosActivity.class);
+                String[] myString2 = new String[coordenadas.size() + 3];
+                myString2[0] = currentUserID;
+                myString2[1] = InstitutionID;
+                myString2[2] = "";
+                Log.i("currenuser main", myString2[0]);
+                Log.i("currenuser ins", myString2[1]);
+
+                int kkk = 3;
+                for(String cc: coordenadas)
+                {
+                    myString2[kkk] = cc;
+                    kkk++;
+                }
+                nosotrosIntent.putExtra("User", myString2);
+                startActivity(nosotrosIntent);
+                Toast.makeText(this, "Sobre Nosotros", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_Logout:

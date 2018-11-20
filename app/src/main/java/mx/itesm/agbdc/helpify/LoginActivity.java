@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity
         UserEmail = (EditText) findViewById(R.id.login_email);
         UserPassword = (EditText) findViewById(R.id.login_password);
         LoginButton = (Button) findViewById(R.id.login_button);
-        googleSignInButton = (ImageView) findViewById(R.id.google_signin_button);
+        //googleSignInButton = (ImageView) findViewById(R.id.google_signin_button);
         loadingBar = new ProgressDialog(this);
 
 
@@ -105,14 +105,14 @@ public class LoginActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        googleSignInButton.setVisibility(View.INVISIBLE);
+        /*googleSignInButton.setVisibility(View.INVISIBLE);
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 signIn();
             }
-        });
+        });*/
     }
 
 

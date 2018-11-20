@@ -4,19 +4,23 @@
     <item
         android:id="@+id/nav_post"
         android:icon="@drawable/add_post"
-        android:title="Agregar Nuevo Post"></item>
+        android:title="Agregar Nuevo Post" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile_icon"
-        android:title="Perfil"></item>
+        android:title="Perfil" />
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home"
         android:title="Pantalla Principal"></item>
     <item
         android:id="@+id/nav_find_friends"
-        android:icon="@drawable/find_people"
+        android:icon="@drawable/friends"
         android:title="Ubicaciones de Centros"></item>
+    <item
+        android:id="@+id/nav_nosotros"
+        android:icon="@drawable/find_people"
+        android:title="Sobre Nosotros"></item>
     <item
         android:id="@+id/nav_Logout"
         android:icon="@drawable/logout"

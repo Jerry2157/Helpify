@@ -85,15 +85,6 @@
         android:layout_marginTop="-17dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/google_signin_button"
-            android:layout_width="90dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:src="@drawable/google" />
-
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
