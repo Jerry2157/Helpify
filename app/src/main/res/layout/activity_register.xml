@@ -11,14 +11,16 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="130dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="115dp"
+            android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
+
             app:srcCompat="@drawable/logo" />
 
         <EditText

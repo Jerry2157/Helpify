@@ -67,6 +67,8 @@ public class NosotrosActivity extends AppCompatActivity
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
         fotoPerfil = findViewById(R.id.foto);
 
+        getSupportActionBar().setTitle("Nosotros");
+
         Intent intent = getIntent();
         results = intent.getStringArrayExtra("User");
 
