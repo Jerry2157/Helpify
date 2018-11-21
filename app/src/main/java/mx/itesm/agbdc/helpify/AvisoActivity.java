@@ -179,7 +179,7 @@ public class AvisoActivity extends AppCompatActivity
         }
         if (id == R.id.nav_nosotros)
         {
-            Intent avisoIntent = new Intent(AvisoActivity.this, ProfileActivity.class);
+            Intent avisoIntent = new Intent(AvisoActivity.this, NosotrosActivity.class);
             avisoIntent.putExtra("User", results);
             startActivity(avisoIntent);
             Toast.makeText(this, "Sobre Nosotros", Toast.LENGTH_SHORT).show();
