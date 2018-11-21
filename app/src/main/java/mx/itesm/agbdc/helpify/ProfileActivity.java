@@ -98,6 +98,8 @@ public class ProfileActivity extends AppCompatActivity
         Log.i("currentuser profile", currentUserID);
         Log.i("institution profile", institutionID);
 
+        getSupportActionBar().setTitle("Perfil");
+
         query = FirebaseDatabase.getInstance().getReference().child("Donaciones").
                 orderByChild("userID").equalTo(currentUserID);
         queryPost = FirebaseDatabase.getInstance().getReference().child("Posts").
