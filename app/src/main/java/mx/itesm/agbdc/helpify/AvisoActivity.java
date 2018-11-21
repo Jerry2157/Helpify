@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class NosotrosActivity extends AppCompatActivity
+public class AvisoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private CircleImageView NavProfileImage;
@@ -44,7 +44,7 @@ public class NosotrosActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nosotros);
+        setContentView(R.layout.activity_aviso);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -85,7 +85,7 @@ public class NosotrosActivity extends AppCompatActivity
                     }
                     if (dataSnapshot.hasChild("profileimage")) {
                         String image = dataSnapshot.child("profileimage").getValue().toString();
-                        Picasso.with(NosotrosActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
+                        Picasso.with(AvisoActivity.this).load(image).placeholder(R.drawable.profile).into(NavProfileImage);
                         //Picasso.with(NosotrosActivity.this).load(image).placeholder(R.drawable.profile).into(fotoPerfil);
 
                     }
@@ -100,7 +100,6 @@ public class NosotrosActivity extends AppCompatActivity
         GiveInstitutionRights();
     }
 
-
     private void GiveInstitutionRights() {
         if(institutionID.equals("null")){
             navigationView.getMenu().findItem(R.id.nav_post).setVisible(false);
@@ -112,7 +111,6 @@ public class NosotrosActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -123,17 +121,9 @@ public class NosotrosActivity extends AppCompatActivity
         }
     }
 
-    private void SendUserToMapa()
-    {
-        Intent sendUserToMapa = new Intent(NosotrosActivity.this, Mapa.class);
-        sendUserToMapa.putExtra("Users", results);
-        startActivity(sendUserToMapa);
-        finish();
-    }
-
     private void SendUserToMainActivity()
     {
-        Intent mainIntent = new Intent(NosotrosActivity.this, MainActivity.class);
+        Intent mainIntent = new Intent(AvisoActivity.this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
@@ -142,13 +132,13 @@ public class NosotrosActivity extends AppCompatActivity
 
     private void SendUserToPostActivity()
     {
-        Intent addNewPostIntent = new Intent(NosotrosActivity.this, PostActivity.class);
+        Intent addNewPostIntent = new Intent(AvisoActivity.this, PostActivity.class);
         startActivity(addNewPostIntent);
     }
 
     private void SendUserToLoginActivity()
     {
-        Intent loginIntent = new Intent(NosotrosActivity.this, LoginActivity.class);
+        Intent loginIntent = new Intent(AvisoActivity.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
@@ -168,17 +158,10 @@ public class NosotrosActivity extends AppCompatActivity
         }
         if (id == R.id.nav_find_friends)
         {
-            Intent mapIntent = new Intent(NosotrosActivity.this, Mapa.class);
+            Intent mapIntent = new Intent(AvisoActivity.this, Mapa.class);
             mapIntent.putExtra("User", results);
             startActivity(mapIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
-        }
-        if (id == R.id.nav_aviso)
-        {
-            Intent avisoIntent = new Intent(NosotrosActivity.this, AvisoActivity.class);
-            avisoIntent.putExtra("User", results);
-            startActivity(avisoIntent);
-            Toast.makeText(this, "Aviso de Privacidad", Toast.LENGTH_SHORT).show();
         }
         if(id == R.id.nav_Logout)
         {
@@ -188,11 +171,18 @@ public class NosotrosActivity extends AppCompatActivity
         if (id == R.id.nav_profile)
         {
             results[2] = "";
-            Intent addNewProfileIntent = new Intent(NosotrosActivity.this, ProfileActivity.class);
+            Intent addNewProfileIntent = new Intent(AvisoActivity.this, ProfileActivity.class);
 
             addNewProfileIntent.putExtra("User", results);
             startActivity(addNewProfileIntent);
             Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.nav_nosotros)
+        {
+            Intent avisoIntent = new Intent(AvisoActivity.this, ProfileActivity.class);
+            avisoIntent.putExtra("User", results);
+            startActivity(avisoIntent);
+            Toast.makeText(this, "Sobre Nosotros", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

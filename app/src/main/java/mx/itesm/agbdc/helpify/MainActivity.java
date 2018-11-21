@@ -395,6 +395,16 @@ public class MainActivity extends AppCompatActivity
 
     private void UserMenuSelector(MenuItem item)
     {
+        String[] myString = new String[coordenadas.size() + 3];
+        myString[0] = currentUserID;
+        myString[1] = InstitutionID;
+        myString[2] = "";
+        int k = 3;
+        for(String cc: coordenadas)
+        {
+            myString[k] = cc;
+            k++;
+        }
         switch (item.getItemId())
         {
             case R.id.nav_post:
@@ -403,16 +413,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_profile:
                 Intent addNewProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                String[] myString = new String[coordenadas.size() + 3];
-                myString[0] = currentUserID;
-                myString[1] = InstitutionID;
-                myString[2] = "";
-                int k = 3;
-                for(String cc: coordenadas)
-                {
-                    myString[k] = cc;
-                    k++;
-                }
+
                 addNewProfileIntent.putExtra("User", myString);
                 startActivity(addNewProfileIntent);
                 Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
@@ -461,7 +462,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(nosotrosIntent);
                 Toast.makeText(this, "Sobre Nosotros", Toast.LENGTH_SHORT).show();
                 break;
-
+            case R.id.nav_aviso:
+                Intent avisoIntent = new Intent(MainActivity.this, AvisoActivity.class);
+                avisoIntent.putExtra("User", myString);
+                startActivity(avisoIntent);
+                Toast.makeText(this, "Aviso de privacidad", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.nav_Logout:
                 mAuth.signOut();
                 SendUserToLoginActivity();

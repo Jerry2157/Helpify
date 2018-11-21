@@ -22,6 +22,10 @@
         android:icon="@drawable/find_people"
         android:title="Sobre Nosotros"></item>
     <item
+        android:id="@+id/nav_aviso"
+        android:icon="@drawable/ic_aviso"
+        android:title="Aviso de Privacidad" />
+    <item
         android:id="@+id/nav_Logout"
         android:icon="@drawable/logout"
         android:title="Cerrar Sesión"></item>
