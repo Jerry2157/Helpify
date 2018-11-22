@@ -99,6 +99,8 @@ public class ShowInfo extends AppCompatActivity
         ins = results[2];
         institutionID = results[1];
 
+        getSupportActionBar().setTitle("Perfil");
+
         Log.i("currentuser profile", ins);
         Log.i("institution profile", institutionID);
         queryPost = FirebaseDatabase.getInstance().getReference().child("Posts").

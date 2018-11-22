@@ -67,7 +67,7 @@ public class NosotrosActivity extends AppCompatActivity
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
         fotoPerfil = findViewById(R.id.foto);
 
-        getSupportActionBar().setTitle("Nosotros");
+        getSupportActionBar().setTitle("Desarrolladores:");
 
         Intent intent = getIntent();
         results = intent.getStringArrayExtra("User");
@@ -77,7 +77,7 @@ public class NosotrosActivity extends AppCompatActivity
 
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
+        UsersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

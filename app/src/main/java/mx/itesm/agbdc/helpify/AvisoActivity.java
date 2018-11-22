@@ -73,6 +73,8 @@ public class AvisoActivity extends AppCompatActivity
         currentUserID = results[0];
         institutionID = results[1];
 
+        getSupportActionBar().setTitle("Aviso de Privacidad");
+
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         UsersRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
